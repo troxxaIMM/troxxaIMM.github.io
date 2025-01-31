@@ -1,0 +1,206 @@
+:root {
+    --background-color: #f5f7fa;
+    --container-bg: #ffffff;
+    --text-color: #333;
+    --button-bg: #28a745;
+    --button-hover-bg: #218838;
+    --button-text: #fff;
+    --table-header-bg: #28a745;
+    --table-header-text: #fff;
+    --table-row-even-bg: #f9f9f9;
+    --table-row-hover-bg: #f1f1f1;
+    --input-border: #ddd;
+    --input-focus-border: #28a745;
+    --total-bg: #f1f1f1;
+    --total-text: #333;
+}
+
+[data-theme="dark"] {
+    --background-color: #1e1e1e;
+    --container-bg: #2d2d2d;
+    --text-color: #f5f5f5;
+    --button-bg: #34c759;
+    --button-hover-bg: #2a9d4a;
+    --button-text: #fff;
+    --table-header-bg: #34c759;
+    --table-header-text: #fff;
+    --table-row-even-bg: #3d3d3d;
+    --table-row-hover-bg: #4d4d4d;
+    --input-border: #555;
+    --input-focus-border: #34c759;
+    --total-bg: #3d3d3d;
+    --total-text: #f5f5f5;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    background: var(--container-bg);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--container-bg);
+    color: var(--text-color);
+}
+
+input[type="text"]:focus {
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.3);
+    outline: none;
+}
+
+button {
+    padding: 12px 24px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: var(--button-hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+}
+
+/* Стили для таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: var(--container-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid var(--input-border);
+}
+
+table th {
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: var(--table-row-even-bg);
+}
+
+table tr:hover {
+    background-color: var(--table-row-hover-bg);
+    transition: background-color 0.3s ease;
+}
+
+/* Стили для итоговой строки */
+.total {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--total-text);
+    text-align: center;
+    padding: 15px;
+    background: var(--total-bg);
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Кнопка переключения темы */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: var(--button-hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.theme-toggle:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

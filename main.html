@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Суши хочу вкусные</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">Тёмная тема</button>
+
+    <div class="container">
+        <h1>Расчет НДС</h1>
+        <label for="currentYearIncome">Введите прогнозируемый доход в текущем (2025) году:</label>
+        <input type="text" id="currentYearIncome" placeholder="Введите доход">
+
+        <div id="monthlyInputs">
+            <!-- Месячные поля ввода будут добавлены сюда -->
+        </div>
+
+        <button onclick="calculateVAT()">Рассчитать</button>
+        <button onclick="clearTable()">Обновить</button>
+        <button onclick="saveToExcel()">Сохранить в Excel</button>
+
+        <table id="resultsTable">
+            <thead>
+                <tr>
+                    <th>Месяц</th>
+                    <th>Доход в месяце (без НДС), ₽</th>
+                    <th>Доход нарастающим итогом (без НДС), ₽</th>
+                    <th>Ставка НДС</th>
+                    <th>Сумма НДС, ₽</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Результаты будут добавлены сюда -->
+            </tbody>
+        </table>
+
+        <div class="total" id="totalLabel">Итого: 0 ₽, Сумма НДС: 0 ₽</div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        // Функция для переключения темы
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = 'Тёмная тема';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = 'Светлая тема';
+            }
+        }
+    </script>
+</body>
+</html>
