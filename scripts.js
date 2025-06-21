@@ -20,6 +20,718 @@ months.forEach(month => {
     monthlyInputs.appendChild(input);
 });
 
+/* Game styles */
+const style = document.createElement('style');
+style.textContent = `
+/* Game container styles */
+.game-container {
+    max-width: 550px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border-radius: 1.2rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Game header */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    color: #e0e0e0;
+}
+
+/* Score box */
+.score-box {
+    background: #2a2a4a;
+    border-radius: 0.8rem;
+    padding: 0.8rem 1.8rem;
+    border: 2px solid #4a4a8a;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.score-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(74, 74, 138, 0.4);
+}
+
+.score-box span:first-child {
+    color: #00ddeb;
+    font-size: 1.1rem;
+}
+
+/* Game board */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.9rem;
+    background: #0f0f23;
+    border-radius: 1.2rem;
+    padding: 1rem;
+    border: 2px solid #4a4a8a;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
+
+/* Match-3 specific styles */
+#match3-board {
+    grid-template-columns: repeat(8, 1fr);
+}
+
+.match3-cell {
+    aspect-ratio: 1;
+    border-radius: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    background: #2a2a4a;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.match3-cell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.match3-cell:hover::before {
+    opacity: 1;
+}
+
+.match3-cell:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 221, 235, 0.4);
+}
+
+.match3-cell.selected {
+    transform: scale(0.92);
+    box-shadow: 0 0 0 4px #00ddeb, 0 5px 15px rgba(0, 221, 235, 0.5);
+    z-index: 2;
+}
+
+.match3-cell.swap {
+    animation: swap 0.3s ease;
+}
+
+.match3-cell.fall {
+    animation: fall 0.4s ease forwards;
+}
+
+.match3-cell.pop {
+    animation: pop 0.2s ease;
+}
+
+.match3-cell.new {
+    animation: fadeIn 0.3s ease;
+}
+
+/* 2048 specific styles */
+#2048-board {
+    position: relative;
+    background: #0f0f23;
+    aspect-ratio: 1;
+}
+
+.tile {
+    position: absolute;
+    width: calc(25% - 0.9rem);
+    height: calc(25% - 0.9rem);
+    border-radius: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 800;
+    transition: transform 0.2s ease, top 0.2s ease, left 0.2s ease;
+    z-index: 1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tile.new {
+    animation: appear 0.2s ease;
+}
+
+.tile.merged {
+    animation: merge 0.2s ease;
+}
+
+.tile-2 { background: linear-gradient(135deg, #eee4da, #e8d9c5); color: #776e65; }
+.tile-4 { background: linear-gradient(135deg, #ede0c8, #e7d6b0); color: #776e65; }
+.tile-8 { background: linear-gradient(135deg, #f2b179, #eda767); color: #f9f6f2; }
+.tile-16 { background: linear-gradient(135deg, #f59563, #f08950); color: #f9f6f2; }
+.tile-32 { background: linear-gradient(135deg, #f67c5f, #f16e4c); color: #f9f6f2; }
+.tile-64 { background: linear-gradient(135deg, #f65e3b, #f14e2a); color: #f9f6f2; }
+.tile-128 { background: linear-gradient(135deg, #edcf72, #e8c560); color: #f9f6f2; font-size: 1.3rem; }
+.tile-256 { background: linear-gradient(135deg, #edcc61, #e8c150); color: #f9f6f2; font-size: 1.3rem; }
+.tile-512 { background: linear-gradient(135deg, #edc850, #e8c33e); color: #f9f6f2; font-size: 1.3rem; }
+.tile-1024 { background: linear-gradient(135deg, #edc53f, #e8bf2e); color: #f9f6f2; font-size: 1.1rem; }
+.tile-2048 { background: linear-gradient(135deg, #edc22e, #e8bc1d); color: #f9f6f2; font-size: 1.1rem; }
+
+.tile:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.grid-cell {
+    aspect-ratio: 1;
+    border-radius: 0.6rem;
+    background: rgba(238, 228, 218, 0.2);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Button styles */
+.btn.btn-secondary {
+    background: linear-gradient(135deg, #00ddeb, #0099a8);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.btn.btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 221, 235, 0.4);
+}
+
+.btn.btn-secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 221, 235, 0.2);
+}
+
+/* Tab button styles */
+.tab-button {
+    background: #2a2a4a;
+    color: #e0e0e0;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.tab-button:hover {
+    background: #3a3a6a;
+    transform: translateY(-2px);
+}
+
+.tab-button.active {
+    background: linear-gradient(135deg, #00ddeb, #0099a8);
+    color: #fff;
+}
+
+/* Animation keyframes */
+@keyframes swap {
+    0% { transform: translate(0, 0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes fall {
+    0% { transform: translateY(-100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(0); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes appear {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+
+@keyframes merge {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Custom CSS variables */
+:root {
+    --dark-matter: #0f0f23;
+    --event-horizon: #4a4a8a;
+    --quantum: #00ddeb;
+}
+`;
+document.head.appendChild(style);
+
+// Match-3 Game
+function initMatch3Game() {
+    const board = document.getElementById('match3-board');
+    const scoreElement = document.getElementById('match3-score');
+    const restartButton = document.getElementById('match3-restart');
+    
+    let score = 0;
+    let selectedCell = null;
+    const gems = ['💎', '❤️', '🌀', '💵', '🪙', '🪬'];
+    
+    function createBoard() {
+        board.innerHTML = '';
+        score = 0;
+        scoreElement.textContent = '0';
+        selectedCell = null;
+        
+        for (let i = 0; i < 64; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'match3-cell new';
+            cell.textContent = gems[Math.floor(Math.random() * gems.length)];
+            cell.dataset.index = i;
+            cell.addEventListener('click', handleCellClick);
+            board.appendChild(cell);
+            setTimeout(() => cell.classList.remove('new'), 300);
+        }
+    }
+    
+    function handleCellClick(e) {
+        const cell = e.target;
+        const cellIndex = parseInt(cell.dataset.index);
+        
+        if (selectedCell === null) {
+            selectedCell = cellIndex;
+            cell.classList.add('selected');
+        } else if (selectedCell === cellIndex) {
+            selectedCell = null;
+            cell.classList.remove('selected');
+        } else {
+            const firstCell = board.children[selectedCell];
+            const secondCell = cell;
+            
+            if (isAdjacent(selectedCell, cellIndex)) {
+                firstCell.classList.add('swap');
+                secondCell.classList.add('swap');
+                
+                const temp = firstCell.textContent;
+                firstCell.textContent = secondCell.textContent;
+                secondCell.textContent = temp;
+                
+                setTimeout(() => {
+                    firstCell.classList.remove('swap');
+                    secondCell.classList.remove('swap');
+                    
+                    const matches = checkMatches();
+                    if (matches.length > 0) {
+                        removeMatches(matches);
+                        updateScore(matches.length * 10);
+                    } else {
+                        firstCell.classList.add('swap');
+                        secondCell.classList.add('swap');
+                        const temp = firstCell.textContent;
+                        firstCell.textContent = secondCell.textContent;
+                        secondCell.textContent = temp;
+                        setTimeout(() => {
+                            firstCell.classList.remove('swap');
+                            secondCell.classList.remove('swap');
+                        }, 300);
+                    }
+                    
+                    firstCell.classList.remove('selected');
+                    selectedCell = null;
+                }, 300);
+            } else {
+                board.children[selectedCell].classList.remove('selected');
+                selectedCell = cellIndex;
+                cell.classList.add('selected');
+            }
+        }
+    }
+    
+    function isAdjacent(index1, index2) {
+        const row1 = Math.floor(index1 / 8);
+        const col1 = index1 % 8;
+        const row2 = Math.floor(index2 / 8);
+        const col2 = index2 % 8;
+        
+        return (Math.abs(row1 - row2) === 1 && col1 === col2) || 
+               (Math.abs(col1 - col2) === 1 && row1 === row2);
+    }
+    
+    function checkMatches() {
+        const matches = new Set();
+        
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 6; col++) {
+                const index = row * 8 + col;
+                const gem = board.children[index].textContent;
+                
+                if (board.children[index + 1].textContent === gem && 
+                    board.children[index + 2].textContent === gem) {
+                    matches.add(index);
+                    matches.add(index + 1);
+                    matches.add(index + 2);
+                }
+            }
+        }
+        
+        for (let col = 0; col < 8; col++) {
+            for (let row = 0; row < 6; row++) {
+                const index = row * 8 + col;
+                const gem = board.children[index].textContent;
+                
+                if (board.children[index + 8].textContent === gem && 
+                    board.children[index + 16].textContent === gem) {
+                    matches.add(index);
+                    matches.add(index + 8);
+                    matches.add(index + 16);
+                }
+            }
+        }
+        
+        return Array.from(matches);
+    }
+    
+    function removeMatches(matchIndexes) {
+        matchIndexes.forEach(index => {
+            const cell = board.children[index];
+            cell.classList.add('pop');
+            setTimeout(() => {
+                cell.textContent = '';
+                cell.classList.remove('pop');
+            }, 200);
+        });
+        
+        setTimeout(() => {
+            for (let col = 0; col < 8; col++) {
+                let emptySpaces = [];
+                
+                for (let row = 7; row >= 0; row--) {
+                    const index = row * 8 + col;
+                    if (board.children[index].textContent === '') {
+                        emptySpaces.push(index);
+                    } else if (emptySpaces.length > 0) {
+                        const emptyIndex = emptySpaces.shift();
+                        board.children[emptyIndex].classList.add('fall');
+                        board.children[emptyIndex].textContent = board.children[index].textContent;
+                        board.children[index].textContent = '';
+                        emptySpaces.push(index);
+                        setTimeout(() => board.children[emptyIndex].classList.remove('fall'), 400);
+                    }
+                }
+                
+                emptySpaces.forEach(index => {
+                    const cell = board.children[index];
+                    cell.classList.add('new');
+                    cell.textContent = gems[Math.floor(Math.random() * gems.length)];
+                    setTimeout(() => cell.classList.remove('new'), 300);
+                });
+            }
+            
+            setTimeout(() => {
+                const newMatches = checkMatches();
+                if (newMatches.length > 0) {
+                    removeMatches(newMatches);
+                    updateScore(newMatches.length * 10);
+                }
+            }, 400);
+        }, 300);
+    }
+    
+    function updateScore(points) {
+        score += points;
+        scoreElement.textContent = score;
+    }
+    
+    restartButton.addEventListener('click', createBoard);
+    createBoard();
+}
+
+// 2048 Game
+function init2048Game() {
+    const board = document.getElementById('2048-board');
+    const scoreElement = document.getElementById('2048-score');
+    const bestScoreElement = document.getElementById('2048-best');
+    const restartButton = document.getElementById('2048-restart');
+    
+    let grid = [];
+    let score = 0;
+    let bestScore = localStorage.getItem('2048-best') || 0;
+    bestScoreElement.textContent = bestScore;
+    
+    function createBoard() {
+        board.innerHTML = '';
+        grid = Array(4).fill().map(() => Array(4).fill(0));
+        score = 0;
+        scoreElement.textContent = '0';
+        
+        for (let row = 0; row < 4; row++) {
+            for (let col = 0; col < 4; col++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.dataset.row = row;
+                cell.dataset.col = col;
+                board.appendChild(cell);
+            }
+        }
+        
+        addRandomTile();
+        addRandomTile();
+        updateView();
+    }
+    
+    function addRandomTile() {
+        const emptyCells = [];
+        
+        for (let row = 0; row < 4; row++) {
+            for (let col = 0; col < 4; col++) {
+                if (grid[row][col] === 0) {
+                    emptyCells.push({ row, col });
+                }
+            }
+        }
+        
+        if (emptyCells.length > 0) {
+            const { row, col } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            grid[row][col] = Math.random() < 0.9 ? 2 : 4;
+        }
+    }
+    
+    function updateView() {
+        document.querySelectorAll('.tile').forEach(tile => tile.remove());
+        
+        for (let row = 0; row < 4; row++) {
+            for (let col = 0; col < 4; col++) {
+                if (grid[row][col] !== 0) {
+                    const tile = document.createElement('div');
+                    tile.className = `tile tile-${grid[row][col]}`;
+                    tile.textContent = grid[row][col];
+                    tile.style.top = `calc(${row * 25}% + 0.45rem)`;
+                    tile.style.left = `calc(${col * 25}% + 0.45rem)`;
+                    tile.dataset.row = row;
+                    tile.dataset.col = col;
+                    board.appendChild(tile);
+                }
+            }
+        }
+    }
+    
+    function moveTiles(direction) {
+        let moved = false;
+        const newGrid = JSON.parse(JSON.stringify(grid));
+        const merges = [];
+        
+        if (direction === 'right') {
+            for (let row = 0; row < 4; row++) {
+                newGrid[row] = newGrid[row].reverse();
+            }
+        } else if (direction === 'up') {
+            for (let row = 0; row < 4; row++) {
+                for (let col = row + 1; col < 4; col++) {
+                    [newGrid[row][col], newGrid[col][row]] = [newGrid[col][row], newGrid[row][col]];
+                }
+            }
+        } else if (direction === 'down') {
+            for (let row = 0; row < 4; row++) {
+                for (let col = row + 1; col < 4; col++) {
+                    [newGrid[row][col], newGrid[col][row]] = [newGrid[col][row], newGrid[row][col]];
+                }
+            }
+            for (let row = 0; row < 4; row++) {
+                newGrid[row] = newGrid[row].reverse();
+            }
+        }
+        
+        for (let row = 0; row < 4; row++) {
+            let nums = newGrid[row].filter(num => num !== 0);
+            
+            for (let i = 0; i < nums.length - 1; i++) {
+                if (nums[i] === nums[i + 1]) {
+                    nums[i] *= 2;
+                    merges.push({ row, col: i });
+                    nums[i + 1] = 0;
+                    score += nums[i];
+                    moved = true;
+                }
+            }
+            
+            nums = nums.filter(num => num !== 0);
+            
+            while (nums.length < 4) {
+                nums.push(0);
+            }
+            
+            if (newGrid[row].toString() !== nums.toString()) {
+                moved = true;
+            }
+            
+            newGrid[row] = nums;
+        }
+        
+        if (direction === 'right') {
+            for (let row = 0; row < 4; row++) {
+                newGrid[row] = newGrid[row].reverse();
+            }
+        } else if (direction === 'up') {
+            for (let row = 0; row < 4; row++) {
+                for (let col = row + 1; col < 4; col++) {
+                    [newGrid[row][col], newGrid[col][row]] = [newGrid[col][row], newGrid[row][col]];
+                }
+            }
+        } else if (direction === 'down') {
+            for (let row = 0; row < 4; row++) {
+                newGrid[row] = newGrid[row].reverse();
+            }
+            for (let row = 0; row < 4; row++) {
+                for (let col = row + 1; col < 4; col++) {
+                    [newGrid[row][col], newGrid[col][row]] = [newGrid[col][row], newGrid[row][col]];
+                }
+            }
+        }
+        
+        if (moved) {
+            grid = newGrid;
+            addRandomTile();
+            updateView();
+            
+            document.querySelectorAll('.tile').forEach(tile => {
+                const row = parseInt(tile.dataset.row);
+                const col = parseInt(tile.dataset.col);
+                tile.classList.add('new');
+                setTimeout(() => tile.classList.remove('new'), 200);
+                
+                merges.forEach(merge => {
+                    if (merge.row === row && merge.col === col) {
+                        tile.classList.add('merged');
+                        setTimeout(() => tile.classList.remove('merged'), 200);
+                    }
+                });
+            });
+            
+            scoreElement.textContent = score;
+            
+            if (score > bestScore) {
+                bestScore = score;
+                bestScoreElement.textContent = bestScore;
+                localStorage.setItem('2048-best', bestScore);
+            }
+            
+            checkGameOver();
+        }
+    }
+    
+    function checkGameOver() {
+        for (let row = 0; row < 4; row++) {
+            for (let col = 0; col < 4; col++) {
+                if (grid[row][col] === 0) {
+                    return false;
+                }
+            }
+        }
+        
+        for (let row = 0; row < 4; row++) {
+            for (let col = 0; col < 4; col++) {
+                if (col < 3 && grid[row][col] === grid[row][col + 1]) {
+                    return false;
+                }
+                if (row < 3 && grid[row][col] === grid[row + 1][col]) {
+                    return false;
+                }
+            }
+        }
+        
+        setTimeout(() => {
+            alert(`Игра окончена! Ваш счёт: ${score}`);
+        }, 100);
+        
+        return true;
+    }
+    
+    document.addEventListener('keydown', (e) => {
+        if (!board.querySelector('.tile')) return;
+        
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+            e.preventDefault();
+            
+            switch (e.code) {
+                case 'ArrowUp': moveTiles('up'); break;
+                case 'ArrowDown': moveTiles('down'); break;
+                case 'ArrowLeft': moveTiles('left'); break;
+                case 'ArrowRight': moveTiles('right'); break;
+            }
+        }
+    });
+    
+    let touchStartX = 0;
+    let touchStartY = 0;
+    
+    board.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    }, false);
+    
+    board.addEventListener('touchend', (e) => {
+        if (!touchStartX || !touchStartY) return;
+        
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        const dx = touchEndX - touchStartX;
+        const dy = touchEndY - touchStartY;
+        
+        if (Math.abs(dx) > Math.abs(dy)) {
+            if (dx > 0) moveTiles('right');
+            else moveTiles('left');
+        } else {
+            if (dy > 0) moveTiles('down');
+            else moveTiles('up');
+        }
+        
+        touchStartX = 0;
+        touchStartY = 0;
+    }, false);
+    
+    restartButton.addEventListener('click', createBoard);
+    createBoard();
+}
+
+// Tab navigation
+document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.add('hidden'));
+            
+            button.classList.add('active');
+            const tabId = button.dataset.tab;
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            if (tabId === 'match3' && !document.querySelector('.match3-cell')) {
+                initMatch3Game();
+            } else if (tabId === 'game2048' && !document.querySelector('.tile')) {
+                init2048Game();
+            }
+        });
+    });
+    
+    // Initialize first tab
+    if (tabButtons.length > 0) {
+        tabButtons[0].click();
+    }
+});
+
 // Функция для форматирования ввода с точками
 function formatInput(event) {
     const input = event.target;
