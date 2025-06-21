@@ -104,6 +104,58 @@
                     </div>
                 </div>
 
+                <button class="tab-button px-6 py-3 rounded-lg m-1 flex items-center" data-tab="match3">
+                    <i class="fas fa-gem mr-2"></i> Три в ряд
+                </button>
+                <button class="tab-button px-6 py-3 rounded-lg m-1 flex items-center" data-tab="game2048">
+                    <i class="fas fa-th mr-2"></i> 2048
+                </button>
+
+                <!-- Добавьте новые вкладки в конец tab-content -->
+                <div id="match3" class="tab-content hidden">
+                    <h1 class="text-3xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-gem mr-3 text-purple-500"></i>
+                        Игра "Три в ряд"
+                    </h1>
+                    
+                    <div class="game-container">
+                        <div class="game-header">
+                            <div class="score-box">
+                                <span>Счёт:</span>
+                                <span id="match3-score">0</span>
+                            </div>
+                            <button id="match3-restart" class="btn btn-secondary">
+                                <i class="fas fa-redo mr-2"></i> Новая игра
+                            </button>
+                        </div>
+                        <div id="match3-board" class="game-board"></div>
+                    </div>
+                </div>
+
+                <div id="game2048" class="tab-content hidden">
+                    <h1 class="text-3xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-th mr-3 text-purple-500"></i>
+                        Игра "2048"
+                    </h1>
+                    
+                    <div class="game-container">
+                        <div class="game-header">
+                            <div class="score-box">
+                                <span>Счёт:</span>
+                                <span id="2048-score">0</span>
+                            </div>
+                            <div class="score-box">
+                                <span>Рекорд:</span>
+                                <span id="2048-best">0</span>
+                            </div>
+                            <button id="2048-restart" class="btn btn-secondary">
+                                <i class="fas fa-redo mr-2"></i> Новая игра
+                            </button>
+                        </div>
+                        <div id="2048-board" class="game-board"></div>
+                    </div>
+                </div>
+
                 <!-- VAT tab -->
                 <div id="vat" class="tab-content hidden">
                     <h1 class="text-3xl font-bold mb-6 flex items-center">
@@ -562,5 +614,80 @@
             <p class="mt-1">Информация предоставляется исключительно в справочных целях.</p>
         </footer>
     </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const particlesContainer = document.createElement('div');
+  particlesContainer.style.position = 'fixed';
+  particlesContainer.style.top = '0';
+  particlesContainer.style.left = '0';
+  particlesContainer.style.width = '100%';
+  particlesContainer.style.height = '100%';
+  particlesContainer.style.pointerEvents = 'none';
+  particlesContainer.style.zIndex = '-1';
+  document.body.appendChild(particlesContainer);
+
+  // Create 50 particles
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    
+    // Random properties
+    const randomX = Math.random() * 100;
+    const duration = 80 + Math.random() * 100;
+    const delay = Math.random() * 50;
+    const startY = -5 - Math.random() * 50;
+    const opacity = 0.3 + Math.random() * 0.5;
+    
+    particle.style.setProperty('--random-x', `${randomX}vw`);
+    particle.style.setProperty('--particle-opacity', opacity);
+    particle.style.animationDuration = `${duration}s`;
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.top = `${startY}vh`;
+    
+    // Different sizes and colors
+    const size = 1 + Math.random();
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    
+    const colors = ['#ffffff', '#8a2be2', '#00f5d4', '#ff2d75'];
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    
+    particlesContainer.appendChild(particle);
+  }
+
+  // Mouse interaction
+  document.addEventListener('mousemove', (e) => {
+    const particles = document.querySelectorAll('.particle');
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+    const repelRadius = 150; // pixels
+    
+    particles.forEach(particle => {
+      const rect = particle.getBoundingClientRect();
+      const particleX = rect.left + rect.width/2;
+      const particleY = rect.top + rect.height/2;
+      
+      const distance = Math.sqrt(
+        Math.pow(mouseX - particleX, 2) + 
+        Math.pow(mouseY - particleY, 2)
+      );
+      
+      if (distance < repelRadius) {
+        // Calculate repel direction
+        const angle = Math.atan2(particleY - mouseY, particleX - mouseX);
+        const force = (repelRadius - distance) / repelRadius * 2;
+        
+        particle.classList.add('repel');
+        particle.style.setProperty('--repel-x', `${Math.cos(angle) * 50 * force}px`);
+        particle.style.setProperty('--repel-y', `${Math.sin(angle) * 50 * force}px`);
+      } else {
+        particle.classList.remove('repel');
+      }
+    });
+  });
+});
+</script>
+
 </body>
 </html>
