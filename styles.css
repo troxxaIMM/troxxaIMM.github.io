@@ -1,94 +1,533 @@
-        :root {
-            --primary: #6366f1;
-            --secondary: #8b5cf6;
-            --accent: #ec4899;
-            --dark: #1e293b;
-            --light: #f8fafc;
-        }
+/* styles.css */
+:root {
+  --space: #0B0E17;
+  --galaxy: #1A1D2E;
+  --nebula: #2A2342;
+  --star: #E2E8F0;
+  --plasma: #7C3AED;
+  --supernova: #F472B6;
+  --quantum: #3B82F6;
+  --dark-matter: #00000080;
+  --event-horizon: #FFFFFF10;
+}
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(-45deg, #f3f4f6, #e5e7eb, #d1d5db, #9ca3af);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: var(--dark);
-            min-height: 100vh;
-        }
+@keyframes cosmic-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
+@keyframes particle-stream {
+  0% { transform: translateX(-100px) translateY(-100px); opacity: 0; }
+  20%, 80% { opacity: 0.6; }
+  100% { transform: translateX(calc(100vw + 100px)) translateY(calc(100vh + 100px)); opacity: 0; }
+}
 
-        .tab-button.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+@keyframes pulsar-glow {
+  0%, 100% { box-shadow: 0 0 10px 2px var(--plasma); }
+  50% { box-shadow: 0 0 30px 5px var(--plasma); }
+}
 
-        .glow-effect {
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
-        }
+/* Cosmic Base */
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: var(--space);
+  color: var(--star);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 15% 30%, var(--nebula) 0%, transparent 30%),
+    radial-gradient(circle at 85% 70%, #3B076480 0%, transparent 30%),
+    linear-gradient(to bottom, var(--space), var(--galaxy));
+  background-attachment: fixed;
+}
 
-        .hover-grow {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+/* Stellar Particles */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="white" opacity="0.5"/></svg>') repeat;
+  opacity: 0.3;
+  z-index: -1;
+  animation: particle-stream 120s linear infinite;
+}
 
-        .hover-grow:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
+/* Celestial Header */
+.header {
+  padding: 2rem 0;
+  position: relative;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  background: var(--dark-matter);
+  border-bottom: 1px solid var(--event-horizon);
+}
 
-        .currency-card {
-            background: linear-gradient(135deg, #f9fafb, #f3f4f6);
-            border-left: 4px solid var(--primary);
-        }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+}
 
-        .contractor-card {
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-            border-left: 4px solid #10b981;
-        }
+.logo::before {
+  content: '';
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, var(--plasma) 0%, transparent 70%);
+  filter: blur(40px);
+  opacity: 0.3;
+  z-index: -1;
+  animation: pulsar-glow 8s ease-in-out infinite;
+}
 
-        .dark .glass-card {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+.logo-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--plasma), var(--supernova));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.8rem;
+  box-shadow: 
+    0 0 20px var(--plasma),
+    inset 0 4px 6px rgba(255, 255, 255, 0.1);
+  transform-style: preserve-3d;
+  transform: perspective(500px);
+}
 
-        .dark .currency-card {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-left: 4px solid var(--secondary);
-        }
+.logo-text {
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(to right, var(--plasma), var(--supernova), var(--quantum));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 10px rgba(124, 58, 237, 0.3);
+  letter-spacing: -0.5px;
+}
 
-        .dark .contractor-card {
-            background: linear-gradient(135deg, #064e3b, #022c22);
-            border-left: 4px solid #34d399;
-        }
+/* Interstellar Navigation */
+.tabs {
+  background: var(--dark-matter);
+  border-radius: 1.5rem;
+  padding: 0.75rem;
+  margin: 3rem 0;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--event-horizon);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
 
-        input, select {
-            transition: all 0.3s ease;
-        }
+.tab-nav {
+  display: flex;
+  gap: 0.75rem;
+}
 
-        input:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-        }
+.tab-button {
+  padding: 1.25rem 2.5rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: transparent;
+  color: var(--star);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
 
-        .floating {
-            animation: floating 6s ease-in-out infinite;
-        }
+.tab-button i {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
 
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
+.tab-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--plasma), var(--supernova));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.tab-button:hover {
+  transform: translateY(-3px);
+  color: white;
+}
+
+.tab-button:hover::before {
+  opacity: 0.15;
+}
+
+.tab-button:hover i {
+  transform: scale(1.1);
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, var(--plasma), var(--supernova));
+  color: white;
+  box-shadow: 
+    0 5px 20px rgba(124, 58, 237, 0.5),
+    0 2px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 3px;
+  background: white;
+  border-radius: 3px;
+  filter: drop-shadow(0 0 5px white);
+}
+
+/* Nebula Cards */
+.card {
+  background: linear-gradient(145deg, var(--galaxy), var(--nebula));
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--event-horizon);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--plasma) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  z-index: 0;
+}
+
+.card:hover {
+  transform: translateY(-10px) rotate(1deg);
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.card:hover::before {
+  opacity: 0.1;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.card-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, var(--plasma), var(--supernova));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  box-shadow: 
+    0 5px 15px rgba(124, 58, 237, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+.card-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(to right, var(--star), var(--star));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+}
+
+.card-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, var(--plasma), var(--supernova));
+  border-radius: 3px;
+}
+
+/* Quantum Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 2.5rem;
+  border-radius: 1.25rem;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+  cursor: pointer;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+  font-size: 1.1rem;
+  transform-style: preserve-3d;
+  transform: perspective(500px);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--plasma), var(--supernova));
+  color: white;
+  box-shadow: 
+    0 10px 30px rgba(124, 58, 237, 0.4),
+    0 5px 10px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-5px) scale(1.02) perspective(500px);
+  box-shadow: 
+    0 15px 40px rgba(124, 58, 237, 0.5),
+    0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(-2px) perspective(500px);
+}
+
+.btn-secondary {
+  background: var(--dark-matter);
+  color: var(--star);
+  border: 1px solid var(--event-horizon);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: var(--nebula);
+  transform: translateY(-3px) perspective(500px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Singularity Forms */
+.form-group {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+input, select, textarea {
+    background-color: rgba(15, 23, 42, 0.9);
+    color: #f8fafc; /* Светлый цвет текста */
+    border-color: #4b5563;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--star);
+  font-size: 1.1rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 1.25rem 1.5rem 1.25rem 4.5rem;
+  background: var(--dark-matter);
+  border: 1px solid var(--event-horizon);
+  border-radius: 1.25rem;
+  color: var(--star);
+  font-size: 1.1rem;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(5px);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--plasma);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    0 0 0 3px rgba(124, 58, 237, 0.3),
+    0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.input-icon {
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--plasma);
+  font-size: 1.5rem;
+  z-index: 2;
+}
+
+/* Black Hole Tables */
+.table-container {
+  background: var(--dark-matter);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--event-horizon);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(116, 116, 116, 0.05);
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th {
+  padding: 1.5rem;
+  text-align: left;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--plasma), var(--supernova));
+  color: rgb(155, 155, 155);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.table td {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--event-horizon);
+  color: var(--star);
+  transition: all 0.3s ease;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover td {
+  background: rgba(124, 58, 237, 0.1);
+  transform: translateX(5px);
+}
+
+/* Supernova Effects */
+.cosmic-float {
+  animation: cosmic-float 8s ease-in-out infinite;
+}
+
+.pulsar {
+  position: relative;
+}
+
+.pulsar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  box-shadow: 0 0 15px var(--plasma);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.pulsar:hover::after {
+  opacity: 0.6;
+}
+
+/* Responsive Stellar Alignment */
+@media (max-width: 1024px) {
+  .tab-nav {
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .logo {
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .tab-nav {
+    flex-direction: column;
+  }
+  
+  .tab-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .btn, .tab-button {
+    padding: 1rem 1.5rem;
+  }
+  
+  .form-control {
+    padding-left: 3.5rem;
+  }
+  
+  .input-icon {
+    left: 1rem;
+    font-size: 1.2rem;
+  }
+}
