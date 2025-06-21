@@ -1,766 +1,1006 @@
-/* Cosmic Financial Interface - Ultra Premium Dark Theme */
 :root {
-  --void: #050510;
-  --cosmos: #0f0c24;
-  --nebula: #1e1a3d;
-  --starlight: #e2e8f0;
-  --plasma: #8a2be2;
-  --supernova: #ff2d75;
-  --quantum: #00f5d4;
-  --event-horizon: rgba(255, 255, 255, 0.08);
-  --dark-matter: rgba(0, 0, 0, 0.5);
+    --void: #050510;
+    --cosmos: #0f0c24;
+    --nebula: #1e1a3d;
+    --starlight: #e2e8f0;
+    --plasma: #8a2be2;
+    --supernova: #ff2d75;
+    --quantum: #00f5d4;
+    --event-horizon: rgba(255, 255, 255, 0.08);
+    --dark-matter: rgba(0, 0, 0, 0.5);
+    --random-x: 0px;
+    --particle-opacity: 0.7;
 }
 
 @font-face {
-  font-family: 'Astro';
-  src: url('https://fonts.cdnfonts.com/css/astro-space');
-  font-weight: 400;
+    font-family: 'Astro';
+    src: url('https://fonts.cdnfonts.com/css/astro-space');
+    font-weight: 400;
 }
 
 @keyframes cosmic-drift {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(5px, -5px) rotate(0.5deg); }
-  50% { transform: translate(0, -10px) rotate(0deg); }
-  75% { transform: translate(-5px, -5px) rotate(-0.5deg); }
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(5px, -5px) rotate(0.5deg); }
+    50% { transform: translate(0, -10px) rotate(0deg); }
+    75% { transform: translate(-5px, -5px) rotate(-0.5deg); }
 }
 
 @keyframes hologram-glow {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
 }
 
 @keyframes particle-rain {
-  0% { transform: translateY(-100vh) translateX(var(--random-x)); opacity: 0; }
-  10% { opacity: 0.8; }
-  90% { opacity: 0.8; }
-  100% { transform: translateY(100vh) translateX(var(--random-x)); opacity: 0; }
+    0% { transform: translateY(-100vh) translateX(var(--random-x)); opacity: 0; }
+    10% { opacity: var(--particle-opacity); }
+    90% { opacity: var(--particle-opacity); }
+    100% { transform: translateY(100vh) translateX(var(--random-x)); opacity: 0; }
+}
+
+@keyframes particle-flicker {
+    0%, 100% { opacity: var(--particle-opacity); }
+    20%, 40%, 60%, 80% { opacity: calc(var(--particle-opacity) * 0.2); }
+    30%, 50%, 70% { opacity: calc(var(--particle-opacity) * 0.5); }
+}
+
+.particle:hover {
+    animation-play-state: paused;
 }
 
 /* === Cosmic Canvas === */
 body {
-  font-family: 'Astro', 'Space Grotesk', sans-serif;
-  background: 
+    font-family: 'Astro', 'Space Grotesk', sans-serif;
+    background: 
     radial-gradient(ellipse at 20% 20%, var(--nebula) 0%, transparent 40%),
     radial-gradient(ellipse at 80% 80%, #3b0764 0%, transparent 40%),
     linear-gradient(var(--void), var(--cosmos));
-  color: var(--starlight);
-  min-height: 100vh;
-  overflow-x: hidden;
-  perspective: 1000px;
+    color: var(--starlight);
+    min-height: 100vh;
+    overflow-x: hidden;
+    perspective: 1000px;
+    position: relative;
 }
 
 /* Holographic Particles */
 body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
     url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="0.8" fill="white" opacity="0.3"/></svg>'),
     url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="1.2" fill="hsl(271, 76%, 53%)" opacity="0.4"/></svg>');
-  background-size: 100px 100px, 200px 200px;
-  opacity: 0.15;
-  z-index: -1;
-  animation: hologram-glow 6s ease-in-out infinite;
+    background-size: 100px 100px, 200px 200px;
+    opacity: 0.15;
+    z-index: -1;
+    animation: hologram-glow 6s ease-in-out infinite;
 }
 
 /* Quantum Header */
 .header {
-  padding: 2.5rem 0;
-  position: relative;
-  z-index: 1000;
-  backdrop-filter: blur(20px);
-  background: linear-gradient(to bottom, var(--dark-matter), transparent);
-  border-bottom: 1px solid var(--event-horizon);
+    padding: 2.5rem 0;
+    position: relative;
+    z-index: 1000;
+    backdrop-filter: blur(20px);
+    background: linear-gradient(to bottom, var(--dark-matter), transparent);
+    border-bottom: 1px solid var(--event-horizon);
 }
 
 .logo-container {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  position: relative;
-  isolation: isolate;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    isolation: isolate;
 }
 
 .logo-orb {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--plasma), var(--supernova));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 2.2rem;
-  box-shadow: 
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--plasma), var(--supernova));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.2rem;
+    box-shadow: 
     0 0 30px var(--plasma),
     inset 0 5px 10px rgba(255, 255, 255, 0.2);
-  position: relative;
-  animation: cosmic-drift 12s ease-in-out infinite;
-  z-index: 1;
+    position: relative;
+    animation: cosmic-drift 12s ease-in-out infinite;
+    z-index: 1;
 }
 
 .logo-orb::before {
-  content: '';
-  position: absolute;
-  inset: -5px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--plasma), var(--supernova));
-  filter: blur(15px);
-  opacity: 0.6;
-  z-index: -1;
-  animation: hologram-glow 4s ease-in-out infinite alternate;
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--plasma), var(--supernova));
+    filter: blur(15px);
+    opacity: 0.6;
+    z-index: -1;
+    animation: hologram-glow 4s ease-in-out infinite alternate;
 }
 
 .logo-text {
-  font-size: 2.8rem;
-  font-weight: 400;
-  letter-spacing: 1px;
-  background: linear-gradient(to right, var(--starlight), var(--quantum));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 2px 10px rgba(138, 43, 226, 0.3);
-  position: relative;
-  padding-bottom: 0.5rem;
+    font-size: 2.8rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    background: linear-gradient(to right, var(--starlight), var(--quantum));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 10px rgba(138, 43, 226, 0.3);
+    position: relative;
+    padding-bottom: 0.5rem;
 }
 
 .logo-text::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to right, transparent, var(--quantum), transparent);
-  border-radius: 2px;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--quantum), transparent);
+    border-radius: 2px;
 }
 
 /* Stellar Navigation */
 .tabs-container {
-  margin: 4rem 0;
-  position: relative;
+    margin: 4rem 0;
+    position: relative;
 }
 
 .tabs {
-  background: var(--dark-matter);
-  border-radius: 1.5rem;
-  padding: 1rem;
-  backdrop-filter: blur(15px);
-  border: 1px solid var(--event-horizon);
-  box-shadow: 
+    background: var(--dark-matter);
+    border-radius: 1.5rem;
+    padding: 1rem;
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--event-horizon);
+    box-shadow: 
     0 15px 40px rgba(0, 0, 0, 0.4),
     inset 0 1px 1px rgba(255, 255, 255, 0.05);
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .tabs::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, var(--plasma) 0%, transparent 70%);
-  opacity: 0.1;
-  z-index: 0;
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, var(--plasma) 0%, transparent 70%);
+    opacity: 0.1;
+    z-index: 0;
 }
 
 .tab-nav {
-  display: flex;
-  gap: 1rem;
-  position: relative;
-  z-index: 1;
+    display: flex;
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .tab-button {
-  padding: 1.5rem 3rem;
-  border-radius: 1rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  background: transparent;
-  color: var(--starlight);
-  border: none;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  font-size: 1.1rem;
-  backdrop-filter: blur(5px);
+    padding: 1.5rem 3rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    background: transparent;
+    color: var(--starlight);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    font-size: 1.1rem;
+    backdrop-filter: blur(5px);
 }
 
 .tab-button i {
-  font-size: 1.4rem;
-  transition: all 0.4s ease;
+    font-size: 1.4rem;
+    transition: all 0.4s ease;
 }
 
 .tab-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, var(--plasma), var(--supernova));
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: -1;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--plasma), var(--supernova));
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
 }
 
 .tab-button::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(to right, var(--plasma), var(--supernova));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, var(--plasma), var(--supernova));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tab-button:hover {
-  transform: translateY(-5px);
-  color: white;
+    transform: translateY(-5px);
+    color: white;
 }
 
 .tab-button:hover::before {
-  opacity: 0.2;
+    opacity: 0.2;
 }
 
 .tab-button:hover i {
-  transform: scale(1.2) rotate(10deg);
-  color: var(--quantum);
+    transform: scale(1.2) rotate(10deg);
+    color: var(--quantum);
 }
 
 .tab-button.active {
-  background: linear-gradient(135deg, var(--plasma), var(--supernova));
-  color: white;
-  box-shadow: 
+    background: linear-gradient(135deg, var(--plasma), var(--supernova));
+    color: white;
+    box-shadow: 
     0 10px 30px rgba(138, 43, 226, 0.5),
     0 5px 15px rgba(0, 0, 0, 0.2);
-  transform: translateY(-5px);
+    transform: translateY(-5px);
 }
 
 .tab-button.active::after {
-  transform: scaleX(1);
+    transform: scaleX(1);
 }
 
 /* Nebula Cards */
 .card {
-  background: linear-gradient(145deg, var(--cosmos), var(--nebula));
-  border-radius: 2rem;
-  padding: 3rem;
-  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--event-horizon);
-  box-shadow: 
+    background: linear-gradient(145deg, var(--cosmos), var(--nebula));
+    border-radius: 2rem;
+    padding: 3rem;
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--event-horizon);
+    box-shadow: 
     0 20px 50px rgba(0, 0, 0, 0.3),
     inset 0 1px 1px rgba(255, 255, 255, 0.05);
-  transform-style: preserve-3d;
+    transform-style: preserve-3d;
 }
 
 .card::before {
-  content: '';
-  position: absolute;
-  top: -100%;
-  left: -100%;
-  width: 300%;
-  height: 300%;
-  background: radial-gradient(circle, var(--plasma) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.7s ease;
-  z-index: 0;
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, var(--plasma) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    z-index: 0;
 }
 
 .card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), transparent);
-  z-index: 1;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), transparent);
+    z-index: 1;
 }
 
 .card:hover {
-  transform: translateY(-15px) rotateX(5deg) rotateY(2deg);
-  box-shadow: 
+    transform: translateY(-15px) rotateX(5deg) rotateY(2deg);
+    box-shadow: 
     0 30px 70px rgba(0, 0, 0, 0.5),
     inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 .card:hover::before {
-  opacity: 0.15;
+    opacity: 0.15;
 }
 
 .card-content {
-  position: relative;
-  z-index: 2;
+    position: relative;
+    z-index: 2;
 }
 
 .card-header {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
 }
 
 .card-icon {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 1.5rem;
-  background: linear-gradient(135deg, var(--plasma), var(--supernova));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.8rem;
-  box-shadow: 
+    width: 5rem;
+    height: 5rem;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, var(--plasma), var(--supernova));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.8rem;
+    box-shadow: 
     0 10px 30px rgba(138, 43, 226, 0.5),
     inset 0 3px 6px rgba(255, 255, 255, 0.2);
-  position: relative;
-  animation: cosmic-drift 8s ease-in-out infinite;
+    position: relative;
+    animation: cosmic-drift 8s ease-in-out infinite;
 }
 
 .card-icon::before {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: inherit;
-  background: linear-gradient(135deg, var(--plasma), var(--supernova));
-  filter: blur(10px);
-  opacity: 0.5;
-  z-index: -1;
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--plasma), var(--supernova));
+    filter: blur(10px);
+    opacity: 0.5;
+    z-index: -1;
 }
 
 .card-title {
-  font-size: 2.2rem;
-  font-weight: 400;
-  background: linear-gradient(to right, var(--starlight), var(--quantum));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  position: relative;
-  padding-bottom: 1rem;
+    font-size: 2.2rem;
+    font-weight: 400;
+    background: linear-gradient(to right, var(--starlight), var(--quantum));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    padding-bottom: 1rem;
 }
 
 .card-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100px;
-  height: 3px;
-  background: linear-gradient(to right, var(--plasma), var(--supernova));
-  border-radius: 3px;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(to right, var(--plasma), var(--supernova));
+    border-radius: 3px;
 }
 
 /* Quantum Interface Elements */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem 3rem;
-  border-radius: 1.5rem;
-  font-weight: 600;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  border: none;
-  cursor: pointer;
-  gap: 1.5rem;
-  position: relative;
-  overflow: hidden;
-  font-size: 1.2rem;
-  transform-style: preserve-3d;
-  perspective: 500px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 3rem;
+    border-radius: 1.5rem;
+    font-weight: 600;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    border: none;
+    cursor: pointer;
+    gap: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    font-size: 1.2rem;
+    transform-style: preserve-3d;
+    perspective: 500px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .btn i {
-  transition: transform 0.4s ease;
+    transition: transform 0.4s ease;
 }
 
 .btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-  opacity: 0;
-  transition: opacity 0.5s ease;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
 .btn::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
-  transform: rotate(45deg) translate(-30%, -100%);
-  transition: all 0.7s ease;
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg) translate(-30%, -100%);
+    transition: all 0.7s ease;
 }
 
 .btn:hover::before {
-  opacity: 1;
+    opacity: 1;
 }
 
 .btn:hover::after {
-  transform: rotate(45deg) translate(100%, 100%);
+    transform: rotate(45deg) translate(100%, 100%);
 }
 
 .btn:hover i {
-  transform: scale(1.3) rotate(15deg);
+    transform: scale(1.3) rotate(15deg);
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--plasma), var(--supernova));
-  color: white;
-  box-shadow: 
+    background: linear-gradient(135deg, var(--plasma), var(--supernova));
+    color: white;
+    box-shadow: 
     0 15px 40px rgba(138, 43, 226, 0.5),
     0 5px 15px rgba(0, 0, 0, 0.3);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .btn-primary:hover {
-  transform: translateY(-8px) scale(1.05) rotateX(10deg);
-  box-shadow: 
+    transform: translateY(-8px) scale(1.05) rotateX(10deg);
+    box-shadow: 
     0 20px 50px rgba(138, 43, 226, 0.6),
     0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .btn-secondary {
-  background: var(--dark-matter);
-  color: var(--starlight);
-  border: 1px solid var(--event-horizon);
-  backdrop-filter: blur(10px);
+    background: var(--dark-matter);
+    color: var(--starlight);
+    border: 1px solid var(--event-horizon);
+    backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
-  background: linear-gradient(145deg, var(--cosmos), var(--nebula));
-  transform: translateY(-5px) rotateX(5deg);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(145deg, var(--cosmos), var(--nebula));
+    transform: translateY(-5px) rotateX(5deg);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
 /* Holographic Forms */
 .form-group {
-  margin-bottom: 2.5rem;
-  position: relative;
+    margin-bottom: 2.5rem;
+    position: relative;
 }
 
 .form-label {
-  display: block;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-  color: var(--starlight);
-  font-size: 1.2rem;
-  letter-spacing: 0.5px;
-  position: relative;
+    display: block;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    color: var(--starlight);
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+    position: relative;
 }
 
 .form-label::after {
-  content: '';
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  width: 50px;
-  height: 2px;
-  background: linear-gradient(to right, var(--plasma), var(--supernova));
-  border-radius: 2px;
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(to right, var(--plasma), var(--supernova));
+    border-radius: 2px;
 }
 
 .form-control {
-  width: 100%;
-  padding: 1.5rem 2rem 1.5rem 5rem;
-  background: var(--dark-matter);
-  border: 1px solid var(--event-horizon);
-  border-radius: 1.5rem;
-  color: var(--starlight);
-  font-size: 1.2rem;
-  transition: all 0.5s ease;
-  backdrop-filter: blur(10px);
-  box-shadow: 
+    width: 100%;
+    padding: 1.5rem 2rem 1.5rem 5rem;
+    background: var(--dark-matter);
+    border: 1px solid var(--event-horizon);
+    border-radius: 1.5rem;
+    color: var(--starlight);
+    font-size: 1.2rem;
+    transition: all 0.5s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 
     inset 0 3px 6px rgba(0, 0, 0, 0.2),
     0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .form-control:focus {
-  outline: none;
-  border-color: var(--plasma);
-  box-shadow: 
+    outline: none;
+    border-color: var(--plasma);
+    box-shadow: 
     inset 0 3px 6px rgba(0, 0, 0, 0.2),
     0 0 0 3px rgba(138, 43, 226, 0.3),
     0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
 .input-icon {
-  position: absolute;
-  left: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--plasma);
-  font-size: 1.8rem;
-  z-index: 2;
-  transition: all 0.4s ease;
+    position: absolute;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--plasma);
+    font-size: 1.8rem;
+    z-index: 2;
+    transition: all 0.4s ease;
 }
 
 .form-control:focus + .input-icon {
-  color: var(--quantum);
-  transform: translateY(-50%) scale(1.2);
+    color: var(--quantum);
+    transform: translateY(-50%) scale(1.2);
 }
 
 /* Data Displays */
 .result-display {
-  background: var(--dark-matter);
-  border-radius: 1.5rem;
-  padding: 3rem;
-  margin-top: 2rem;
-  border-left: 4px solid var(--plasma);
-  box-shadow: 
+    background: var(--dark-matter);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    margin-top: 2rem;
+    border-left: 4px solid var(--plasma);
+    box-shadow: 
     0 20px 50px rgba(0, 0, 0, 0.3),
     inset 0 1px 1px rgba(255, 255, 255, 0.05);
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .result-display::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.05), transparent);
-  z-index: 0;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.05), transparent);
+    z-index: 0;
 }
 
 .result-item {
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px dashed var(--event-horizon);
-  position: relative;
-  z-index: 1;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px dashed var(--event-horizon);
+    position: relative;
+    z-index: 1;
 }
 
 .result-item:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 .result-label {
-  font-weight: 600;
-  color: var(--quantum);
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-  letter-spacing: 0.5px;
+    font-weight: 600;
+    color: var(--quantum);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
 }
 
 .result-value {
-  font-size: 1.5rem;
-  color: var(--starlight);
-  font-weight: 400;
+    font-size: 1.5rem;
+    color: var(--starlight);
+    font-weight: 400;
 }
 
 /* Interactive Tables */
 .table-container {
-  background: var(--dark-matter);
-  border-radius: 1.5rem;
-  overflow: hidden;
-  backdrop-filter: blur(15px);
-  border: 1px solid var(--event-horizon);
-  box-shadow: 
+    background: var(--dark-matter);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--event-horizon);
+    box-shadow: 
     0 25px 60px rgba(0, 0, 0, 0.4),
     inset 0 1px 1px rgba(255, 255, 255, 0.05);
-  transform-style: preserve-3d;
+    transform-style: preserve-3d;
 }
 
 .table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  transform: translateZ(0);
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    transform: translateZ(0);
 }
 
 .table th {
-  padding: 1.8rem;
-  text-align: left;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--plasma), var(--supernova));
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.95rem;
-  position: relative;
+    padding: 1.8rem;
+    text-align: left;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--plasma), var(--supernova));
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.95rem;
+    position: relative;
 }
 
 .table th::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(to right, var(--quantum), transparent);
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, var(--quantum), transparent);
 }
 
 .table td {
-  padding: 1.8rem;
-  border-bottom: 1px solid var(--event-horizon);
-  color: var(--starlight);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
+    padding: 1.8rem;
+    border-bottom: 1px solid var(--event-horizon);
+    color: var(--starlight);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
 }
 
 .table td::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), transparent);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: -1;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
 }
 
 .table tr:last-child td {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .table tr:hover td {
-  transform: translateX(10px);
-  color: white;
+    transform: translateX(10px);
+    color: white;
 }
 
 .table tr:hover td::before {
-  opacity: 1;
+    opacity: 1;
 }
 
 /* Cosmic Effects */
 .cosmic-float {
-  animation: cosmic-drift 10s ease-in-out infinite;
+    animation: cosmic-drift 10s ease-in-out infinite;
 }
 
 .holographic-effect {
-  position: relative;
+    position: relative;
 }
 
 .holographic-effect::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  background: linear-gradient(135deg, var(--plasma), var(--supernova), var(--quantum));
-  filter: blur(10px);
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  z-index: -1;
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--plasma), var(--supernova), var(--quantum));
+    filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: -1;
 }
 
 input, select, textarea {
     background-color: rgba(15, 23, 42, 0.9);
-    color: #f8fafc; /* Светлый цвет текста */
+    color: #f8fafc;
     border-color: #4b5563;
 }
 
 .holographic-effect:hover::before {
-  opacity: 0.4;
+    opacity: 0.4;
 }
 
 /* Dynamic Particle Effects */
 .particle {
-  position: fixed;
-  width: 2px;
-  height: 2px;
-  background: white;
-  border-radius: 50%;
-  opacity: 0;
-  z-index: -1;
-  animation: particle-rain linear infinite;
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    z-index: -1;
+    animation: 
+    particle-rain linear infinite,
+    particle-flicker 2s ease-in-out infinite;
+    transform-origin: center;
+    transition: transform 0.3s ease-out, opacity 0.3s ease;
 }
 
-/* Create 50 particles with random properties */
-/* This would be better implemented with JavaScript for true randomness */
-.particle:nth-child(1) { --random-x: 10vw; animation-duration: 100s; animation-delay: 0s; top: -10vh; }
-.particle:nth-child(2) { --random-x: 20vw; animation-duration: 120s; animation-delay: 5s; top: -20vh; }
-/* ... and so on for all 50 particles */
+.particle.repel {
+    opacity: 0.8 !important;
+    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s ease;
+}
+
+.particle:nth-child(1) { --random-x: 5vw; animation-duration: 90s; animation-delay: 0s; top: -5vh; }
+.particle:nth-child(2) { --random-x: 12vw; animation-duration: 110s; animation-delay: 3s; top: -15vh; }
+.particle:nth-child(3) { --random-x: 8vw; animation-duration: 95s; animation-delay: 7s; top: -10vh; }
+.particle:nth-child(4) { --random-x: 18vw; animation-duration: 105s; animation-delay: 2s; top: -25vh; }
+.particle:nth-child(5) { --random-x: 3vw; animation-duration: 100s; animation-delay: 5s; top: -8vh; }
+.particle:nth-child(6) { --random-x: 22vw; animation-duration: 115s; animation-delay: 1s; top: -30vh; }
+.particle:nth-child(7) { --random-x: 7vw; animation-duration: 98s; animation-delay: 4s; top: -12vh; }
+.particle:nth-child(8) { --random-x: 15vw; animation-duration: 108s; animation-delay: 6s; top: -18vh; }
+.particle:nth-child(9) { --random-x: 25vw; animation-duration: 120s; animation-delay: 9s; top: -35vh; }
+.particle:nth-child(10) { --random-x: 9vw; animation-duration: 102s; animation-delay: 8s; top: -14vh; }
+.particle:nth-child(11) { --random-x: 28vw; animation-duration: 125s; animation-delay: 11s; top: -40vh; }
+.particle:nth-child(12) { --random-x: 11vw; animation-duration: 97s; animation-delay: 13s; top: -16vh; }
+.particle:nth-child(13) { --random-x: 32vw; animation-duration: 130s; animation-delay: 10s; top: -45vh; }
+.particle:nth-child(14) { --random-x: 14vw; animation-duration: 103s; animation-delay: 15s; top: -20vh; }
+.particle:nth-child(15) { --random-x: 35vw; animation-duration: 135s; animation-delay: 12s; top: -50vh; }
+.particle:nth-child(16) { --random-x: 17vw; animation-duration: 107s; animation-delay: 14s; top: -22vh; }
+.particle:nth-child(17) { --random-x: 38vw; animation-duration: 140s; animation-delay: 16s; top: -55vh; }
+.particle:nth-child(18) { --random-x: 20vw; animation-duration: 112s; animation-delay: 18s; top: -28vh; }
+.particle:nth-child(19) { --random-x: 42vw; animation-duration: 145s; animation-delay: 17s; top: -60vh; }
+.particle:nth-child(20) { --random-x: 23vw; animation-duration: 117s; animation-delay: 19s; top: -32vh; }
+.particle:nth-child(21) { --random-x: 45vw; animation-duration: 150s; animation-delay: 20s; top: -65vh; }
+.particle:nth-child(22) { --random-x: 27vw; animation-duration: 122s; animation-delay: 22s; top: -38vh; }
+.particle:nth-child(23) { --random-x: 48vw; animation-duration: 155s; animation-delay: 21s; top: -70vh; }
+.particle:nth-child(24) { --random-x: 30vw; animation-duration: 127s; animation-delay: 24s; top: -42vh; }
+.particle:nth-child(25) { --random-x: 52vw; animation-duration: 160s; animation-delay: 23s; top: -75vh; }
+.particle:nth-child(26) { --random-x: 33vw; animation-duration: 132s; animation-delay: 26s; top: -48vh; }
+.particle:nth-child(27) { --random-x: 55vw; animation-duration: 165s; animation-delay: 25s; top: -80vh; }
+.particle:nth-child(28) { --random-x: 37vw; animation-duration: 137s; animation-delay: 28s; top: -52vh; }
+.particle:nth-child(29) { --random-x: 58vw; animation-duration: 170s; animation-delay: 27s; top: -85vh; }
+.particle:nth-child(30) { --random-x: 40vw; animation-duration: 142s; animation-delay: 30s; top: -58vh; }
+.particle:nth-child(31) { --random-x: 62vw; animation-duration: 175s; animation-delay: 29s; top: -90vh; }
+.particle:nth-child(32) { --random-x: 43vw; animation-duration: 147s; animation-delay: 32s; top: -62vh; }
+.particle:nth-child(33) { --random-x: 65vw; animation-duration: 180s; animation-delay: 31s; top: -95vh; }
+.particle:nth-child(34) { --random-x: 47vw; animation-duration: 152s; animation-delay: 34s; top: -68vh; }
+.particle:nth-child(35) { --random-x: 68vw; animation-duration: 185s; animation-delay: 33s; top: -100vh; }
+.particle:nth-child(36) { --random-x: 50vw; animation-duration: 157s; animation-delay: 36s; top: -72vh; }
+.particle:nth-child(37) { --random-x: 72vw; animation-duration: 190s; animation-delay: 35s; top: -105vh; }
+.particle:nth-child(38) { --random-x: 53vw; animation-duration: 162s; animation-delay: 38s; top: -78vh; }
+.particle:nth-child(39) { --random-x: 75vw; animation-duration: 195s; animation-delay: 37s; top: -110vh; }
+.particle:nth-child(40) { --random-x: 57vw; animation-duration: 167s; animation-delay: 40s; top: -82vh; }
+.particle:nth-child(41) { --random-x: 78vw; animation-duration: 200s; animation-delay: 39s; top: -115vh; }
+.particle:nth-child(42) { --random-x: 60vw; animation-duration: 172s; animation-delay: 42s; top: -88vh; }
+.particle:nth-child(43) { --random-x: 82vw; animation-duration: 205s; animation-delay: 41s; top: -120vh; }
+.particle:nth-child(44) { --random-x: 63vw; animation-duration: 177s; animation-delay: 44s; top: -92vh; }
+.particle:nth-child(45) { --random-x: 85vw; animation-duration: 210s; animation-delay: 43s; top: -125vh; }
+.particle:nth-child(46) { --random-x: 67vw; animation-duration: 182s; animation-delay: 46s; top: -98vh; }
+.particle:nth-child(47) { --random-x: 88vw; animation-duration: 215s; animation-delay: 45s; top: -130vh; }
+.particle:nth-child(48) { --random-x: 70vw; animation-duration: 187s; animation-delay: 48s; top: -102vh; }
+.particle:nth-child(49) { --random-x: 92vw; animation-duration: 220s; animation-delay: 47s; top: -135vh; }
+.particle:nth-child(50) { --random-x: 95vw; animation-duration: 225s; animation-delay: 50s; top: -140vh; }
+
+/* Game container styles */
+.game-container {
+    max-width: 550px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border-radius: 1.2rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Game header */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    color: #e0e0e0;
+}
+
+/* Score box */
+.score-box {
+    background: #2a2a4a;
+    border-radius: 0.8rem;
+    padding: 0.8rem 1.8rem;
+    border: 2px solid #4a4a8a;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.score-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(74, 74, 138, 0.4);
+}
+
+.score-box span:first-child {
+    color: #00ddeb;
+    font-size: 1.1rem;
+}
+
+/* Game board */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.9rem;
+    background: #0f0f23;
+    border-radius: 1.2rem;
+    padding: 1rem;
+    border: 2px solid #4a4a8a;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* Match-3 specific styles */
+#match3-board {
+    grid-template-columns: repeat(8, 1fr);
+}
+
+.match3-cell {
+    aspect-ratio: 1;
+    border-radius: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    background: #2a2a4a;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.match3-cell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.match3-cell:hover::before {
+    opacity: 1;
+}
+
+.match3-cell:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 221, 235, 0.4);
+}
+
+.match3-cell.selected {
+    transform: scale(0.92);
+    box-shadow: 0 0 0 4px #00ddeb, 0 5px 15px rgba(0, 221, 235, 0.5);
+    z-index: 2;
+}
+
+/* 2048 specific styles */
+#2048-board {
+    position: relative;
+    background: #0f0f23;
+}
+
+.tile {
+    position: absolute;
+    width: calc(25% - 0.9rem);
+    height: calc(25% - 0.9rem);
+    border-radius: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 800;
+    transition: all 0.2s ease;
+    z-index: 1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tile-2 { background: linear-gradient(135deg, #eee4da, #e8d9c5); color: #776e65; }
+.tile-4 { background: linear-gradient(135deg, #ede0c8, #e7d6b0); color: #776e65; }
+.tile-8 { background: linear-gradient(135deg, #f2b179, #eda767); color: #f9f6f2; }
+.tile-16 { background: linear-gradient(135deg, #f59563, #f08950); color: #f9f6f2; }
+.tile-32 { background: linear-gradient(135deg, #f67c5f, #f16e4c); color: #f9f6f2; }
+.tile-64 { background: linear-gradient(135deg, #f65e3b, #f14e2a); color: #f9f6f2; }
+.tile-128 { background: linear-gradient(135deg, #edcf72, #e8c560); color: #f9f6f2; font-size: 1.3rem; }
+.tile-256 { background: linear-gradient(135deg, #edcc61, #e8c150); color: #f9f6f2; font-size: 1.3rem; }
+.tile-512 { background: linear-gradient(135deg, #edc850, #e8c33e); color: #f9f6f2; font-size: 1.3rem; }
+.tile-1024 { background: linear-gradient(135deg, #edc53f, #e8bf2e); color: #f9f6f2; font-size: 1.1rem; }
+.tile-2048 { background: linear-gradient(135deg, #edc22e, #e8bc1d); color: #f9f6f2; font-size: 1.1rem; }
+
+.tile:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.grid-cell {
+    aspect-ratio: 1;
+    border-radius: 0.6rem;
+    background: rgba(238, 228, 218, 0.2);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Restart button */
+button {
+    background: linear-gradient(135deg, #00ddeb, #0099a8);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 221, 235, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 221, 235, 0.2);
+}
+
+/* Custom CSS variables */
+:root {
+    --dark-matter: #0f0f23;
+    --event-horizon: #4a4a8a;
+    --quantum: #00ddeb;
+}
 
 /* Responsive Adjustments */
 @media (max-width: 1200px) {
-  .card {
+    .card {
     padding: 2.5rem;
-  }
-  
-  .btn {
+    }
+    
+    .btn {
     padding: 1.25rem 2.5rem;
-  }
+    }
 }
 
 @media (max-width: 992px) {
-  .logo-text {
+    .logo-text {
     font-size: 2.4rem;
-  }
-  
-  .tab-button {
+    }
+    
+    .tab-button {
     padding: 1.25rem 2rem;
-  }
-  
-  .card-header {
+    }
+    
+    .card-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
-  }
+    }
 }
 
 @media (max-width: 768px) {
-  .header {
+    .header {
     padding: 2rem 0;
-  }
-  
-  .logo-container {
+    }
+    
+    .logo-container {
     flex-direction: column;
     text-align: center;
     gap: 1.5rem;
-  }
-  
-  .tab-nav {
+    }
+    
+    .tab-nav {
     flex-direction: column;
-  }
-  
-  .card {
+    }
+    
+    .card {
     padding: 2rem;
-  }
+    }
 }
 
 @media (max-width: 576px) {
-  .logo-text {
+    .logo-text {
     font-size: 2rem;
-  }
-  
-  .card {
+    }
+    
+    .card {
     padding: 1.5rem;
-  }
-  
-  .form-control {
+    }
+    
+    .form-control {
     padding-left: 4rem;
-  }
-  
-  .input-icon {
+    }
+    
+    .input-icon {
     left: 1rem;
     font-size: 1.5rem;
-  }
+    }
 }
