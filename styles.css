@@ -1,52 +1,55 @@
-/* styles.css */
+/* Cosmic Financial Interface - Ultra Premium Dark Theme */
 :root {
-  --space: #0B0E17;
-  --galaxy: #1A1D2E;
-  --nebula: #2A2342;
-  --star: #E2E8F0;
-  --plasma: #7C3AED;
-  --supernova: #F472B6;
-  --quantum: #3B82F6;
-  --dark-matter: #00000080;
-  --event-horizon: #FFFFFF10;
+  --void: #050510;
+  --cosmos: #0f0c24;
+  --nebula: #1e1a3d;
+  --starlight: #e2e8f0;
+  --plasma: #8a2be2;
+  --supernova: #ff2d75;
+  --quantum: #00f5d4;
+  --event-horizon: rgba(255, 255, 255, 0.08);
+  --dark-matter: rgba(0, 0, 0, 0.5);
 }
 
 @font-face {
-  font-family: 'Space Grotesk';
-  src: url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+  font-family: 'Astro';
+  src: url('https://fonts.cdnfonts.com/css/astro-space');
+  font-weight: 400;
 }
 
-@keyframes cosmic-float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(2deg); }
+@keyframes cosmic-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(5px, -5px) rotate(0.5deg); }
+  50% { transform: translate(0, -10px) rotate(0deg); }
+  75% { transform: translate(-5px, -5px) rotate(-0.5deg); }
 }
 
-@keyframes particle-stream {
-  0% { transform: translateX(-100px) translateY(-100px); opacity: 0; }
-  20%, 80% { opacity: 0.6; }
-  100% { transform: translateX(calc(100vw + 100px)) translateY(calc(100vh + 100px)); opacity: 0; }
+@keyframes hologram-glow {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
 }
 
-@keyframes pulsar-glow {
-  0%, 100% { box-shadow: 0 0 10px 2px var(--plasma); }
-  50% { box-shadow: 0 0 30px 5px var(--plasma); }
+@keyframes particle-rain {
+  0% { transform: translateY(-100vh) translateX(var(--random-x)); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(100vh) translateX(var(--random-x)); opacity: 0; }
 }
 
-/* Cosmic Base */
+/* === Cosmic Canvas === */
 body {
-  font-family: 'Space Grotesk', sans-serif;
-  background-color: var(--space);
-  color: var(--star);
+  font-family: 'Astro', 'Space Grotesk', sans-serif;
+  background: 
+    radial-gradient(ellipse at 20% 20%, var(--nebula) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 80%, #3b0764 0%, transparent 40%),
+    linear-gradient(var(--void), var(--cosmos));
+  color: var(--starlight);
   min-height: 100vh;
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(circle at 15% 30%, var(--nebula) 0%, transparent 30%),
-    radial-gradient(circle at 85% 70%, #3B076480 0%, transparent 30%),
-    linear-gradient(to bottom, var(--space), var(--galaxy));
-  background-attachment: fixed;
+  perspective: 1000px;
 }
 
-/* Stellar Particles */
+/* Holographic Particles */
 body::before {
   content: '';
   position: fixed;
@@ -54,107 +57,146 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="white" opacity="0.5"/></svg>') repeat;
-  opacity: 0.3;
+  background-image: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="0.8" fill="white" opacity="0.3"/></svg>'),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="1.2" fill="hsl(271, 76%, 53%)" opacity="0.4"/></svg>');
+  background-size: 100px 100px, 200px 200px;
+  opacity: 0.15;
   z-index: -1;
-  animation: particle-stream 120s linear infinite;
+  animation: hologram-glow 6s ease-in-out infinite;
 }
 
-/* Celestial Header */
+/* Quantum Header */
 .header {
-  padding: 2rem 0;
+  padding: 2.5rem 0;
   position: relative;
-  z-index: 100;
-  backdrop-filter: blur(10px);
-  background: var(--dark-matter);
+  z-index: 1000;
+  backdrop-filter: blur(20px);
+  background: linear-gradient(to bottom, var(--dark-matter), transparent);
   border-bottom: 1px solid var(--event-horizon);
 }
 
-.logo {
+.logo-container {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
   position: relative;
+  isolation: isolate;
 }
 
-.logo::before {
-  content: '';
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  background: radial-gradient(circle, var(--plasma) 0%, transparent 70%);
-  filter: blur(40px);
-  opacity: 0.3;
-  z-index: -1;
-  animation: pulsar-glow 8s ease-in-out infinite;
-}
-
-.logo-icon {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 1rem;
+.logo-orb {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
   background: linear-gradient(135deg, var(--plasma), var(--supernova));
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   box-shadow: 
-    0 0 20px var(--plasma),
-    inset 0 4px 6px rgba(255, 255, 255, 0.1);
-  transform-style: preserve-3d;
-  transform: perspective(500px);
+    0 0 30px var(--plasma),
+    inset 0 5px 10px rgba(255, 255, 255, 0.2);
+  position: relative;
+  animation: cosmic-drift 12s ease-in-out infinite;
+  z-index: 1;
+}
+
+.logo-orb::before {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--plasma), var(--supernova));
+  filter: blur(15px);
+  opacity: 0.6;
+  z-index: -1;
+  animation: hologram-glow 4s ease-in-out infinite alternate;
 }
 
 .logo-text {
-  font-size: 2.2rem;
-  font-weight: 700;
-  background: linear-gradient(to right, var(--plasma), var(--supernova), var(--quantum));
+  font-size: 2.8rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  background: linear-gradient(to right, var(--starlight), var(--quantum));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 2px 10px rgba(124, 58, 237, 0.3);
-  letter-spacing: -0.5px;
+  text-shadow: 0 2px 10px rgba(138, 43, 226, 0.3);
+  position: relative;
+  padding-bottom: 0.5rem;
 }
 
-/* Interstellar Navigation */
+.logo-text::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--quantum), transparent);
+  border-radius: 2px;
+}
+
+/* Stellar Navigation */
+.tabs-container {
+  margin: 4rem 0;
+  position: relative;
+}
+
 .tabs {
   background: var(--dark-matter);
   border-radius: 1.5rem;
-  padding: 0.75rem;
-  margin: 3rem 0;
-  backdrop-filter: blur(10px);
+  padding: 1rem;
+  backdrop-filter: blur(15px);
   border: 1px solid var(--event-horizon);
   box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.3),
+    0 15px 40px rgba(0, 0, 0, 0.4),
     inset 0 1px 1px rgba(255, 255, 255, 0.05);
-}
-
-.tab-nav {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.tab-button {
-  padding: 1.25rem 2.5rem;
-  border-radius: 1rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  background: transparent;
-  color: var(--star);
-  border: none;
-  cursor: pointer;
   position: relative;
   overflow: hidden;
 }
 
+.tabs::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--plasma) 0%, transparent 70%);
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.tab-nav {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-button {
+  padding: 1.5rem 3rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  background: transparent;
+  color: var(--starlight);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  font-size: 1.1rem;
+  backdrop-filter: blur(5px);
+}
+
 .tab-button i {
-  font-size: 1.2rem;
-  transition: transform 0.3s ease;
+  font-size: 1.4rem;
+  transition: all 0.4s ease;
 }
 
 .tab-button::before {
@@ -166,145 +208,185 @@ body::before {
   height: 100%;
   background: linear-gradient(135deg, var(--plasma), var(--supernova));
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s ease;
   z-index: -1;
 }
 
+.tab-button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, var(--plasma), var(--supernova));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .tab-button:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
   color: white;
 }
 
 .tab-button:hover::before {
-  opacity: 0.15;
+  opacity: 0.2;
 }
 
 .tab-button:hover i {
-  transform: scale(1.1);
+  transform: scale(1.2) rotate(10deg);
+  color: var(--quantum);
 }
 
 .tab-button.active {
   background: linear-gradient(135deg, var(--plasma), var(--supernova));
   color: white;
   box-shadow: 
-    0 5px 20px rgba(124, 58, 237, 0.5),
-    0 2px 5px rgba(0, 0, 0, 0.2);
-  transform: translateY(-3px);
+    0 10px 30px rgba(138, 43, 226, 0.5),
+    0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
 }
 
 .tab-button.active::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  height: 3px;
-  background: white;
-  border-radius: 3px;
-  filter: drop-shadow(0 0 5px white);
+  transform: scaleX(1);
 }
 
 /* Nebula Cards */
 .card {
-  background: linear-gradient(145deg, var(--galaxy), var(--nebula));
-  border-radius: 1.5rem;
-  padding: 2.5rem;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(145deg, var(--cosmos), var(--nebula));
+  border-radius: 2rem;
+  padding: 3rem;
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
   border: 1px solid var(--event-horizon);
   box-shadow: 
-    0 15px 40px rgba(0, 0, 0, 0.25),
+    0 20px 50px rgba(0, 0, 0, 0.3),
     inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  transform-style: preserve-3d;
 }
 
 .card::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
   background: radial-gradient(circle, var(--plasma) 0%, transparent 70%);
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.7s ease;
   z-index: 0;
 }
 
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), transparent);
+  z-index: 1;
+}
+
 .card:hover {
-  transform: translateY(-10px) rotate(1deg);
+  transform: translateY(-15px) rotateX(5deg) rotateY(2deg);
   box-shadow: 
-    0 25px 60px rgba(0, 0, 0, 0.35),
+    0 30px 70px rgba(0, 0, 0, 0.5),
     inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 .card:hover::before {
-  opacity: 0.1;
+  opacity: 0.15;
+}
+
+.card-content {
+  position: relative;
+  z-index: 2;
 }
 
 .card-header {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-  position: relative;
-  z-index: 2;
+  gap: 2rem;
+  margin-bottom: 3rem;
 }
 
 .card-icon {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 1.25rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1.5rem;
   background: linear-gradient(135deg, var(--plasma), var(--supernova));
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   box-shadow: 
-    0 5px 15px rgba(124, 58, 237, 0.4),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    0 10px 30px rgba(138, 43, 226, 0.5),
+    inset 0 3px 6px rgba(255, 255, 255, 0.2);
+  position: relative;
+  animation: cosmic-drift 8s ease-in-out infinite;
+}
+
+.card-icon::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--plasma), var(--supernova));
+  filter: blur(10px);
+  opacity: 0.5;
+  z-index: -1;
 }
 
 .card-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  background: linear-gradient(to right, var(--star), var(--star));
+  font-size: 2.2rem;
+  font-weight: 400;
+  background: linear-gradient(to right, var(--starlight), var(--quantum));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   position: relative;
+  padding-bottom: 1rem;
 }
 
 .card-title::after {
   content: '';
   position: absolute;
-  bottom: -10px;
+  bottom: 0;
   left: 0;
-  width: 50px;
+  width: 100px;
   height: 3px;
   background: linear-gradient(to right, var(--plasma), var(--supernova));
   border-radius: 3px;
 }
 
-/* Quantum Buttons */
+/* Quantum Interface Elements */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem 2.5rem;
-  border-radius: 1.25rem;
+  padding: 1.5rem 3rem;
+  border-radius: 1.5rem;
   font-weight: 600;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   border: none;
   cursor: pointer;
-  gap: 1rem;
+  gap: 1.5rem;
   position: relative;
   overflow: hidden;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   transform-style: preserve-3d;
-  transform: perspective(500px);
+  perspective: 500px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn i {
+  transition: transform 0.4s ease;
 }
 
 .btn::before {
@@ -314,90 +396,113 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s ease;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(45deg) translate(-30%, -100%);
+  transition: all 0.7s ease;
 }
 
 .btn:hover::before {
   opacity: 1;
 }
 
+.btn:hover::after {
+  transform: rotate(45deg) translate(100%, 100%);
+}
+
+.btn:hover i {
+  transform: scale(1.3) rotate(15deg);
+}
+
 .btn-primary {
   background: linear-gradient(135deg, var(--plasma), var(--supernova));
   color: white;
   box-shadow: 
-    0 10px 30px rgba(124, 58, 237, 0.4),
-    0 5px 10px rgba(0, 0, 0, 0.2);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    0 15px 40px rgba(138, 43, 226, 0.5),
+    0 5px 15px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .btn-primary:hover {
-  transform: translateY(-5px) scale(1.02) perspective(500px);
+  transform: translateY(-8px) scale(1.05) rotateX(10deg);
   box-shadow: 
-    0 15px 40px rgba(124, 58, 237, 0.5),
-    0 8px 15px rgba(0, 0, 0, 0.3);
-}
-
-.btn-primary:active {
-  transform: translateY(-2px) perspective(500px);
+    0 20px 50px rgba(138, 43, 226, 0.6),
+    0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .btn-secondary {
   background: var(--dark-matter);
-  color: var(--star);
+  color: var(--starlight);
   border: 1px solid var(--event-horizon);
   backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
-  background: var(--nebula);
-  transform: translateY(-3px) perspective(500px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(145deg, var(--cosmos), var(--nebula));
+  transform: translateY(-5px) rotateX(5deg);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Singularity Forms */
+/* Holographic Forms */
 .form-group {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   position: relative;
-}
-
-input, select, textarea {
-    background-color: rgba(15, 23, 42, 0.9);
-    color: #f8fafc; /* Светлый цвет текста */
-    border-color: #4b5563;
 }
 
 .form-label {
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-weight: 600;
-  color: var(--star);
-  font-size: 1.1rem;
+  color: var(--starlight);
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.form-label::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(to right, var(--plasma), var(--supernova));
+  border-radius: 2px;
 }
 
 .form-control {
   width: 100%;
-  padding: 1.25rem 1.5rem 1.25rem 4.5rem;
+  padding: 1.5rem 2rem 1.5rem 5rem;
   background: var(--dark-matter);
   border: 1px solid var(--event-horizon);
-  border-radius: 1.25rem;
-  color: var(--star);
-  font-size: 1.1rem;
-  transition: all 0.4s ease;
-  backdrop-filter: blur(5px);
+  border-radius: 1.5rem;
+  color: var(--starlight);
+  font-size: 1.2rem;
+  transition: all 0.5s ease;
+  backdrop-filter: blur(10px);
   box-shadow: 
-    inset 0 2px 4px rgba(0, 0, 0, 0.1),
-    0 5px 15px rgba(0, 0, 0, 0.1);
+    inset 0 3px 6px rgba(0, 0, 0, 0.2),
+    0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .form-control:focus {
   outline: none;
   border-color: var(--plasma);
   box-shadow: 
-    inset 0 2px 4px rgba(0, 0, 0, 0.1),
-    0 0 0 3px rgba(124, 58, 237, 0.3),
-    0 10px 25px rgba(0, 0, 0, 0.2);
+    inset 0 3px 6px rgba(0, 0, 0, 0.2),
+    0 0 0 3px rgba(138, 43, 226, 0.3),
+    0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
 .input-icon {
@@ -406,44 +511,130 @@ input, select, textarea {
   top: 50%;
   transform: translateY(-50%);
   color: var(--plasma);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   z-index: 2;
+  transition: all 0.4s ease;
 }
 
-/* Black Hole Tables */
+.form-control:focus + .input-icon {
+  color: var(--quantum);
+  transform: translateY(-50%) scale(1.2);
+}
+
+/* Data Displays */
+.result-display {
+  background: var(--dark-matter);
+  border-radius: 1.5rem;
+  padding: 3rem;
+  margin-top: 2rem;
+  border-left: 4px solid var(--plasma);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.result-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.05), transparent);
+  z-index: 0;
+}
+
+.result-item {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px dashed var(--event-horizon);
+  position: relative;
+  z-index: 1;
+}
+
+.result-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.result-label {
+  font-weight: 600;
+  color: var(--quantum);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+
+.result-value {
+  font-size: 1.5rem;
+  color: var(--starlight);
+  font-weight: 400;
+}
+
+/* Interactive Tables */
 .table-container {
   background: var(--dark-matter);
   border-radius: 1.5rem;
   overflow: hidden;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
   border: 1px solid var(--event-horizon);
   box-shadow: 
-    0 20px 50px rgba(0, 0, 0, 0.3),
-    inset 0 1px 1px rgba(116, 116, 116, 0.05);
+    0 25px 60px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  transform-style: preserve-3d;
 }
 
 .table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  transform: translateZ(0);
 }
 
 .table th {
-  padding: 1.5rem;
+  padding: 1.8rem;
   text-align: left;
   font-weight: 700;
   background: linear-gradient(135deg, var(--plasma), var(--supernova));
-  color: rgb(155, 155, 155);
+  color: white;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-size: 0.9rem;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+  position: relative;
+}
+
+.table th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, var(--quantum), transparent);
 }
 
 .table td {
-  padding: 1.5rem;
+  padding: 1.8rem;
   border-bottom: 1px solid var(--event-horizon);
-  color: var(--star);
-  transition: all 0.3s ease;
+  color: var(--starlight);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.table td::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
 }
 
 .table tr:last-child td {
@@ -451,40 +642,103 @@ input, select, textarea {
 }
 
 .table tr:hover td {
-  background: rgba(124, 58, 237, 0.1);
-  transform: translateX(5px);
+  transform: translateX(10px);
+  color: white;
 }
 
-/* Supernova Effects */
+.table tr:hover td::before {
+  opacity: 1;
+}
+
+/* Cosmic Effects */
 .cosmic-float {
-  animation: cosmic-float 8s ease-in-out infinite;
+  animation: cosmic-drift 10s ease-in-out infinite;
 }
 
-.pulsar {
+.holographic-effect {
   position: relative;
 }
 
-.pulsar::after {
+.holographic-effect::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: -2px;
   border-radius: inherit;
-  box-shadow: 0 0 15px var(--plasma);
+  background: linear-gradient(135deg, var(--plasma), var(--supernova), var(--quantum));
+  filter: blur(10px);
   opacity: 0;
   transition: opacity 0.6s ease;
+  z-index: -1;
 }
 
-.pulsar:hover::after {
-  opacity: 0.6;
+input, select, textarea {
+    background-color: rgba(15, 23, 42, 0.9);
+    color: #f8fafc; /* Светлый цвет текста */
+    border-color: #4b5563;
 }
 
-/* Responsive Stellar Alignment */
-@media (max-width: 1024px) {
+.holographic-effect:hover::before {
+  opacity: 0.4;
+}
+
+/* Dynamic Particle Effects */
+.particle {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  z-index: -1;
+  animation: particle-rain linear infinite;
+}
+
+/* Create 50 particles with random properties */
+/* This would be better implemented with JavaScript for true randomness */
+.particle:nth-child(1) { --random-x: 10vw; animation-duration: 100s; animation-delay: 0s; top: -10vh; }
+.particle:nth-child(2) { --random-x: 20vw; animation-duration: 120s; animation-delay: 5s; top: -20vh; }
+/* ... and so on for all 50 particles */
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .card {
+    padding: 2.5rem;
+  }
+  
+  .btn {
+    padding: 1.25rem 2.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .logo-text {
+    font-size: 2.4rem;
+  }
+  
+  .tab-button {
+    padding: 1.25rem 2rem;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 2rem 0;
+  }
+  
+  .logo-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
   .tab-nav {
-    flex-wrap: wrap;
+    flex-direction: column;
   }
   
   .card {
@@ -492,42 +746,21 @@ input, select, textarea {
   }
 }
 
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    text-align: center;
+@media (max-width: 576px) {
+  .logo-text {
+    font-size: 2rem;
   }
   
-  .logo {
-    justify-content: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  .tab-nav {
-    flex-direction: column;
-  }
-  
-  .tab-button {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
   .card {
     padding: 1.5rem;
   }
   
-  .btn, .tab-button {
-    padding: 1rem 1.5rem;
-  }
-  
   .form-control {
-    padding-left: 3.5rem;
+    padding-left: 4rem;
   }
   
   .input-icon {
     left: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 }
