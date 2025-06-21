@@ -79,21 +79,21 @@
                             Ваш универсальный помощник для финансовых расчетов, проверки контрагентов и налоговой аналитики.
                         </p>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl hover-grow">
+                            <div class="bg-gray-800 p-6 rounded-xl hover-grow">
                                 <div class="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center text-purple-600 dark:text-purple-300 text-2xl mb-4 mx-auto">
                                     <i class="fas fa-calculator"></i>
                                 </div>
                                 <h3 class="text-xl font-semibold text-center mb-2">Калькуляторы</h3>
                                 <p class="text-gray-600 dark:text-gray-400 text-center">НДС, НДФЛ, страховые взносы и другие расчеты</p>
                             </div>
-                            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl hover-grow">
+                            <div class="bg-gray-800 p-6 rounded-xl hover-grow">
                                 <div class="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300 text-2xl mb-4 mx-auto">
                                     <i class="fas fa-search"></i>
                                 </div>
                                 <h3 class="text-xl font-semibold text-center mb-2">Контрагенты</h3>
                                 <p class="text-gray-600 dark:text-gray-400 text-center">Проверка ИНН и данных компаний</p>
                             </div>
-                            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl hover-grow">
+                            <div class="bg-gray-800 p-6 rounded-xl hover-grow">
                                 <div class="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center text-green-600 dark:text-green-300 text-2xl mb-4 mx-auto">
                                     <i class="fas fa-chart-pie"></i>
                                 </div>
@@ -165,11 +165,11 @@
                     
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <div class="lg:col-span-2">
-                            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 mb-6 hover-grow">
+                            <div class="bg-gray-800 rounded-xl p-6 mb-6 hover-grow">
                                 <label class="block text-lg font-semibold mb-2">Введите прогнозируемый доход в 2025 году:</label>
                                 <div class="relative">
                                     <input type="text" id="currentYearIncome" placeholder="Введите доход" 
-                                           class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg pl-12">
+                                           class="w-full p-4 border-gray-600 rounded-lg pl-12">
                                     <span class="absolute left-4 top-4 text-gray-500">₽</span>
                                 </div>
                             </div>
@@ -189,7 +189,7 @@
                             </div>
                         </div>
                         
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h3 class="text-xl font-semibold mb-4 flex items-center">
                                 <i class="fas fa-info-circle mr-2 text-blue-500"></i>
                                 Справка по НДС
@@ -216,7 +216,7 @@
                     </div>
                     
                     <div class="mt-8">
-                        <table id="resultsTable" class="w-full border-collapse bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden">
+                        <table id="resultsTable" class="w-full border-collapse bg-gray-800 rounded-xl shadow overflow-hidden">
                             <thead>
                                 <tr class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
                                     <th class="p-4 text-left">Месяц</th>
@@ -226,9 +226,9 @@
                                     <th class="p-4 text-right">Сумма НДС, ₽</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700"></tbody>
+                            <tbody class="divide-y divide-gray-700"></tbody>
                         </table>
-                        <div id="totalLabel" class="total mt-4 p-4 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/30 dark:to-blue-900/30 rounded-lg text-center font-bold text-lg"></div>
+                        <div id="totalLabel" class="total mt-4 p-4 bg-gradient-to-r from-purple-900/30 to-blue-900/30 rounded-lg text-center font-bold text-lg"></div>
                     </div>
                 </div>
 
@@ -241,24 +241,24 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- VAT Calculator -->
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h2 class="text-2xl font-semibold mb-4 flex items-center">
                                 <i class="fas fa-percent mr-2 text-blue-500"></i>
                                 Калькулятор НДС
                             </h2>
                             <label class="block mb-2">Тип расчёта:</label>
-                            <select id="vatDirection" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg mb-4">
+                            <select id="vatDirection" class="w-full p-3 border-gray-600 rounded-lg mb-4">
                                 <option value="add">Добавить НДС</option>
                                 <option value="remove">Убрать НДС</option>
                             </select>
                             <label class="block mb-2">Сумма:</label>
                             <div class="relative mb-4">
                                 <input type="text" id="vatAmount" placeholder="Введите сумму" 
-                                       class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg pl-10">
+                                       class="w-full p-3 border-gray-600 rounded-lg pl-10">
                                 <span class="absolute left-3 top-3 text-gray-500">₽</span>
                             </div>
                             <label class="block mb-2">Ставка НДС:</label>
-                            <select id="vatRate" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg mb-4">
+                            <select id="vatRate" class="w-full p-3 border-gray-600 rounded-lg mb-4">
                                 <option value="0">0%</option>
                                 <option value="10">10%</option>
                                 <option value="20">20%</option>
@@ -266,34 +266,34 @@
                             <button onclick="calculateSimpleVAT()" class="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:opacity-90 transition-all">
                                 <i class="fas fa-calculator mr-2"></i> Рассчитать
                             </button>
-                            <div id="vatResult" class="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"></div>
+                            <div id="vatResult" class="mt-4 p-4 bg-gray-700 rounded-lg"></div>
                         </div>
                         
                         <!-- Insurance Calculator -->
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h2 class="text-2xl font-semibold mb-4 flex items-center">
                                 <i class="fas fa-shield-alt mr-2 text-green-500"></i>
                                 Страховые взносы
                             </h2>
                             <label class="block mb-2">Тип плательщика:</label>
-                            <select id="insuranceType" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg mb-4">
+                            <select id="insuranceType" class="w-full p-3 border-gray-600 rounded-lg mb-4">
                                 <option value="standard">Стандартный (30%)</option>
                                 <option value="it">IT-компания (7.6%)</option>
                             </select>
                             <label class="block mb-2">Сумма дохода:</label>
                             <div class="relative mb-4">
                                 <input type="text" id="insuranceAmount" placeholder="Введите доход" 
-                                       class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg pl-10">
+                                       class="w-full p-3 border-gray-600 rounded-lg pl-10">
                                 <span class="absolute left-3 top-3 text-gray-500">₽</span>
                             </div>
                             <button onclick="calculateInsurance()" class="w-full py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg hover:opacity-90 transition-all">
                                 <i class="fas fa-calculator mr-2"></i> Рассчитать
                             </button>
-                            <div id="insuranceResult" class="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"></div>
+                            <div id="insuranceResult" class="mt-4 p-4 bg-gray-700 rounded-lg"></div>
                         </div>
                         
                         <!-- NDFL Calculator -->
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h2 class="text-2xl font-semibold mb-4 flex items-center">
                                 <i class="fas fa-file-invoice-dollar mr-2 text-red-500"></i>
                                 Расчёт НДФЛ
@@ -301,26 +301,26 @@
                             <label class="block mb-2">Зарплата (годовая):</label>
                             <div class="relative mb-4">
                                 <input type="text" id="salaryAmount" placeholder="Введите зарплату" 
-                                       class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg pl-10">
+                                       class="w-full p-3 border-gray-600 rounded-lg pl-10">
                                 <span class="absolute left-3 top-3 text-gray-500">₽</span>
                             </div>
                             <label class="block mb-2">Количество детей:</label>
                             <input type="number" id="childrenCount" min="0" 
-                                   class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg mb-4">
+                                   class="w-full p-3 border-gray-600 rounded-lg mb-4">
                             <label class="block mb-2">Другие вычеты:</label>
                             <div class="relative mb-4">
                                 <input type="text" id="otherDeductions" placeholder="Например, 3000" 
-                                       class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg pl-10">
+                                       class="w-full p-3 border-gray-600 rounded-lg pl-10">
                                 <span class="absolute left-3 top-3 text-gray-500">₽</span>
                             </div>
                             <button onclick="calculateNDFL()" class="w-full py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-lg hover:opacity-90 transition-all">
                                 <i class="fas fa-calculator mr-2"></i> Рассчитать
                             </button>
-                            <div id="ndflResult" class="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"></div>
+                            <div id="ndflResult" class="mt-4 p-4 bg-gray-700 rounded-lg"></div>
                         </div>
                         
                         <!-- Currency Converter -->
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h2 class="text-2xl font-semibold mb-4 flex items-center">
                                 <i class="fas fa-exchange-alt mr-2 text-yellow-500"></i>
                                 Конвертер валют
@@ -331,20 +331,20 @@
                                     <label class="block mb-2">Сумма:</label>
                                     <div class="relative">
                                         <input type="text" id="currencyAmount" placeholder="Введите сумму" 
-                                            class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg">
+                                            class="w-full p-3 border-gray-600 rounded-lg">
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block mb-2">Дата курса:</label>
                                     <input type="date" id="currencyDate" 
-                                        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg">
+                                        class="w-full p-3 border-gray-600 rounded-lg">
                                 </div>
                             </div>
                             
                             <div class="grid grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label class="block mb-2">Из валюты:</label>
-                                    <select id="fromCurrency" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg">
+                                    <select id="fromCurrency" class="w-full p-3 border-gray-600 rounded-lg">
                                         <option value="RUB">RUB (Российский рубль)</option>
                                         <option value="USD">USD (Доллар США)</option>
                                         <option value="EUR">EUR (Евро)</option>
@@ -354,7 +354,7 @@
                                 </div>
                                 <div>
                                     <label class="block mb-2">В валюту:</label>
-                                    <select id="toCurrency" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg">
+                                    <select id="toCurrency" class="w-full p-3 border-gray-600 rounded-lg">
                                         <option value="RUB">RUB (Российский рубль)</option>
                                         <option value="USD" selected>USD (Доллар США)</option>
                                         <option value="EUR">EUR (Евро)</option>
@@ -373,7 +373,7 @@
                                 </button>
                             </div>
                             
-                            <div id="currencyResult" class="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                            <div id="currencyResult" class="mt-4 p-4 bg-gray-700 rounded-lg">
                                 <div class="text-center text-gray-500">
                                     Введите сумму и нажмите "Конвертировать"
                                 </div>
@@ -394,11 +394,11 @@
                     
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <div class="lg:col-span-2">
-                            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 mb-6 hover-grow">
+                            <div class="bg-gray-800 rounded-xl p-6 mb-6 hover-grow">
                                 <label class="block text-lg font-semibold mb-2">Введите ИНН (10 или 12 цифр):</label>
                                 <div class="relative">
                                     <input type="text" id="innInput" placeholder="Введите ИНН" 
-                                           class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg pl-12">
+                                           class="w-full p-4 border-gray-600 rounded-lg pl-12">
                                     <span class="absolute left-4 top-4 text-gray-500">
                                         <i class="fas fa-id-card"></i>
                                     </span>
@@ -407,7 +407,7 @@
                                     <button onclick="checkContractor()" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg hover:opacity-90 transition-all flex-1 min-w-[200px]">
                                         <i class="fas fa-search mr-2"></i> Проверить
                                     </button>
-                                    <a href="https://egrul.nalog.ru" target="_blank" class="px-6 py-3 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all flex-1 min-w-[200px] text-center">
+                                    <a href="https://egrul.nalog.ru" target="_blank" class="px-6 py-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-all flex-1 min-w-[200px] text-center">
                                         <i class="fas fa-external-link-alt mr-2"></i> ФНС
                                     </a>
                                 </div>
@@ -423,7 +423,7 @@
                             </div>
                         </div>
                         
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h3 class="text-xl font-semibold mb-4 flex items-center">
                                 <i class="fas fa-info-circle mr-2 text-blue-500"></i>
                                 Информация о проверке
@@ -473,28 +473,28 @@
                     </h1>
                     
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h2 class="text-2xl font-semibold mb-4">Добавить операцию</h2>
                             <label class="block mb-2">Тип операции:</label>
-                            <select id="operationType" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg mb-4">
+                            <select id="operationType" class="w-full p-3 border-gray-600 rounded-lg mb-4">
                                 <option value="income">Доход</option>
                                 <option value="expense">Расход</option>
                             </select>
                             <label class="block mb-2">Сумма:</label>
                             <div class="relative mb-4">
                                 <input type="text" id="operationAmount" placeholder="Введите сумму" 
-                                       class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg pl-10">
+                                       class="w-full p-3 border-gray-600 rounded-lg pl-10">
                                 <span class="absolute left-3 top-3 text-gray-500">₽</span>
                             </div>
                             <label class="block mb-2">Дата:</label>
                             <input type="date" id="operationDate" 
-                                   class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg mb-4">
+                                   class="w-full p-3 border-gray-600 rounded-lg mb-4">
                             <button onclick="addOperation()" class="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg hover:opacity-90 transition-all">
                                 <i class="fas fa-plus-circle mr-2"></i> Добавить
                             </button>
                         </div>
                         
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h2 class="text-2xl font-semibold mb-4">Графики</h2>
                             <canvas id="taxChart" class="w-full h-64"></canvas>
                         </div>
@@ -515,13 +515,13 @@
                     </h1>
                     
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h2 class="text-2xl font-semibold mb-4 flex items-center">
                                 <i class="fas fa-list-ol mr-2 text-blue-500"></i>
                                 Коды бюджетной классификации (КБК)
                             </h2>
                             <input type="text" id="kbkSearch" placeholder="Поиск по виду платежа" 
-                                   class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg mb-4">
+                                   class="w-full p-3 border-gray-600 rounded-lg mb-4">
                             <div class="overflow-x-auto">
                                 <table id="kbkTable" class="w-full border-collapse">
                                     <thead>
@@ -535,13 +535,13 @@
                             </div>
                         </div>
                         
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h2 class="text-2xl font-semibold mb-4 flex items-center">
                                 <i class="fas fa-receipt mr-2 text-green-500"></i>
                                 Лимиты вычетов
                             </h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <div class="bg-gray-700 p-4 rounded-lg">
                                     <h3 class="font-semibold mb-2 text-blue-500">Детские вычеты</h3>
                                     <ul class="space-y-2 text-sm">
                                         <li>1-й ребенок: <span class="font-semibold">1,400 ₽</span></li>
@@ -550,7 +550,7 @@
                                         <li>Ребенок-инвалид: <span class="font-semibold">12,000 ₽</span></li>
                                     </ul>
                                 </div>
-                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <div class="bg-gray-700 p-4 rounded-lg">
                                     <h3 class="font-semibold mb-2 text-purple-500">Имущественные</h3>
                                     <ul class="space-y-2 text-sm">
                                         <li>Покупка жилья: <span class="font-semibold">2M ₽</span></li>
@@ -558,7 +558,7 @@
                                         <li>Максимальный возврат: <span class="font-semibold">650K ₽</span></li>
                                     </ul>
                                 </div>
-                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <div class="bg-gray-700 p-4 rounded-lg">
                                     <h3 class="font-semibold mb-2 text-green-500">Социальные</h3>
                                     <ul class="space-y-2 text-sm">
                                         <li>Общее ограничение: <span class="font-semibold">150K ₽</span></li>
@@ -566,7 +566,7 @@
                                         <li>Лечение: <span class="font-semibold">150K ₽</span></li>
                                     </ul>
                                 </div>
-                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <div class="bg-gray-700 p-4 rounded-lg">
                                     <h3 class="font-semibold mb-2 text-yellow-500">Прочие</h3>
                                     <ul class="space-y-2 text-sm">
                                         <li>Инвестиционные: <span class="font-semibold">3M ₽</span></li>
@@ -578,7 +578,7 @@
                         </div>
                     </div>
                     
-                    <div class="mt-6 bg-white dark:bg-gray-800 rounded-xl p-6 hover-grow">
+                    <div class="mt-6 bg-gray-800 rounded-xl p-6 hover-grow">
                         <h2 class="text-2xl font-semibold mb-4 flex items-center">
                             <i class="fas fa-gavel mr-2 text-red-500"></i>
                             Статьи НК РФ
