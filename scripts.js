@@ -1,3 +1,14 @@
+// Функция для форматирования числа с разделителями
+function formatNumber(value) {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+// Функция для очистки форматирования (удаления всех нецифровых символов)
+function cleanNumber(value) {
+    return value.replace(/\D/g, '');
+}
+
+
 const months = [
     "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
     "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
@@ -974,24 +985,63 @@ function calculateNDFL() {
     `;
 }
 
-// Калькулятор амортизации
-function calculateAmortization() {
-    const cost = parseFloat(cleanNumber(document.getElementById('assetCost').value)) || 0;
-    const spi = parseInt(document.getElementById('assetSPI').value) || 12;
-    const method = document.getElementById('amortMethod').value;
-    const group = parseInt(document.getElementById('amortGroup').value) || 1;
-    let result;
-    if (method === 'linear') {
-        const monthly = cost / spi;
-        result = `Ежемесячная амортизация: ${formatNumber(monthly.toFixed(2))} ₽`;
-    } else {
-        const rates = { 1: 0.143, 2: 0.088, 3: 0.056 };
-        let balance = cost;
-        let monthly = balance * rates[group];
-        result = `Ежемесячная амортизация (1-й месяц): ${formatNumber(monthly.toFixed(2))} ₽<br>Остаточная стоимость: ${formatNumber((balance - monthly).toFixed(2))} ₽`;
-    }
-    document.getElementById('amortResult').innerHTML = result;
+// Заполняем таблицу амортизации
+const scheduleBody = document.querySelector('#amortSchedule tbody');
+scheduleBody.innerHTML = '';
+
+// Добавляем только первые 12 месяцев для примера (можно оставить полный список)
+const monthsToShow = Math.min(12, data.amortTable.length); // Показываем первые 12 месяцев или меньше
+for (let i = 0; i < monthsToShow; i++) {
+    const item = data.amortTable[i];
+    const row = document.createElement('tr');
+    row.className = i % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750';
+    row.innerHTML = `
+        <td class="p-2">${item.year}</td>
+        <td class="p-2">${item.month}</td>
+        <td class="p-2 text-right">${formatNumber(item.amort.toFixed(2))} ₽</td>
+        <td class="p-2 text-right">${formatNumber(item.accumulated.toFixed(2))} ₽</td>
+        <td class="p-2 text-right">${formatNumber(item.remaining.toFixed(2))} ₽</td>
+    `;
+    scheduleBody.appendChild(row);
 }
+
+// Добавляем кнопку "Показать все" если месяцев больше 12
+if (data.amortTable.length > 12) {
+    const showAllRow = document.createElement('tr');
+    showAllRow.className = 'bg-gray-700';
+    showAllRow.innerHTML = `
+        <td colspan="5" class="p-2 text-center">
+            <button onclick="showFullAmortSchedule()" class="text-blue-500 hover:underline">
+                Показать все ${data.amortTable.length} месяцев ▼
+            </button>
+        </td>
+    `;
+    scheduleBody.appendChild(showAllRow);
+}
+
+// Показать полный график амортизации
+function showFullAmortSchedule() {
+    const data = JSON.parse(localStorage.getItem('amortData'));
+    if (!data) return;
+    
+    const scheduleBody = document.querySelector('#amortSchedule tbody');
+    scheduleBody.innerHTML = '';
+    
+    data.amortTable.forEach((item, i) => {
+        const row = document.createElement('tr');
+        row.className = i % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750';
+        row.innerHTML = `
+            <td class="p-2">${item.year}</td>
+            <td class="p-2">${item.month}</td>
+            <td class="p-2 text-right">${formatNumber(item.amort.toFixed(2))} ₽</td>
+            <td class="p-2 text-right">${formatNumber(item.accumulated.toFixed(2))} ₽</td>
+            <td class="p-2 text-right">${formatNumber(item.remaining.toFixed(2))} ₽</td>
+        `;
+        scheduleBody.appendChild(row);
+    });
+}
+
+document.getElementById('amortSchedule').classList.remove('hidden');
 
 // Список основных валют
 const popularCurrencies = ['USD', 'EUR', 'CNY', 'GBP', 'JPY', 'CHF', 'KZT', 'UAH', 'BYN'];
@@ -1610,4 +1660,258 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateChart();
     document.querySelector('#kbkSearch').dispatchEvent(new Event('input'));
+});
+
+// Калькулятор амортизации
+
+
+// Показываем/скрываем выбор группы амортизации в зависимости от метода
+document.getElementById('amortMethod').addEventListener('change', function() {
+    const groupContainer = document.getElementById('amortGroupContainer');
+    if (this.value === 'reducing') {
+        groupContainer.classList.remove('hidden');
+    } else {
+        groupContainer.classList.add('hidden');
+    }
+});
+
+// Калькулятор амортизации
+function calculateAmortization() {
+    // Получаем входные данные
+    const assetName = document.getElementById('assetName').value || 'Не указано';
+    const assetType = document.getElementById('assetType').value;
+    const cost = parseFloat(cleanNumber(document.getElementById('assetCost').value)) || 0;
+    const salvage = parseFloat(cleanNumber(document.getElementById('salvageValue').value)) || 0;
+    const spiYears = parseInt(document.getElementById('assetSPI').value) || 1;
+    const startDate = document.getElementById('startDate').value;
+    const method = document.getElementById('amortMethod').value;
+    const group = parseInt(document.getElementById('amortGroup').value) || 1;
+    
+    // Проверки
+    if (cost <= 0) {
+        alert('Введите корректную первоначальную стоимость');
+        return;
+    }
+    
+    if (salvage >= cost) {
+        alert('Ликвидационная стоимость должна быть меньше первоначальной');
+        return;
+    }
+    
+    // Рассчитываем
+    const amortCost = cost - salvage;
+    const spiMonths = spiYears * 12;
+    
+    // Налоговый учет (всегда линейный)
+    const taxMonthly = amortCost / spiMonths;
+    const taxYearly = taxMonthly * 12;
+    
+    // Бухгалтерский учет
+    let yearlyAmort = 0;
+    let monthlyAmort = 0;
+    let amortTable = [];
+    
+    if (method === 'linear') {
+        // Линейный метод
+        monthlyAmort = amortCost / spiMonths;
+        yearlyAmort = monthlyAmort * 12;
+        
+        // Заполняем таблицу амортизации
+        let accumulated = 0;
+        for (let month = 1; month <= spiMonths; month++) {
+            accumulated += monthlyAmort;
+            amortTable.push({
+                year: Math.ceil(month / 12),
+                month: month,
+                amort: monthlyAmort,
+                accumulated: accumulated,
+                remaining: cost - accumulated
+            });
+        }
+    } else if (method === 'reducing') {
+        // Метод уменьшаемого остатка
+        const rates = {
+            1: 14.3, 2: 8.8, 3: 5.6, 4: 3.8, 5: 2.7,
+            6: 1.8, 7: 1.3, 8: 1.0, 9: 0.8, 10: 0.7
+        };
+        const rate = rates[group] / 100;
+        
+        let balance = cost;
+        let accumulated = 0;
+        let yearlyTotal = 0;
+        let monthCount = 0;
+        
+        for (let month = 1; month <= spiMonths; month++) {
+            let amort = 0;
+            
+            if (month === 1) {
+                amort = cost * rate;
+            } else {
+                amort = balance * rate;
+            }
+            
+            // В последний месяц корректируем до остаточной стоимости
+            if (month === spiMonths) {
+                amort = balance - salvage;
+            }
+            
+            // Не допускаем отрицательной амортизации
+            amort = Math.max(0, Math.min(amort, balance - salvage));
+            
+            accumulated += amort;
+            balance -= amort;
+            yearlyTotal += amort;
+            monthCount++;
+            
+            amortTable.push({
+                year: Math.ceil(month / 12),
+                month: month,
+                amort: amort,
+                accumulated: accumulated,
+                remaining: balance
+            });
+            
+            // Считаем среднегодовую амортизацию
+            if (monthCount === 12) {
+                yearlyAmort = yearlyTotal / 12; // Среднее за год
+                yearlyTotal = 0;
+                monthCount = 0;
+            }
+        }
+        
+        // Если срок не кратен годам, считаем среднее за последний неполный год
+        if (monthCount > 0) {
+            yearlyAmort = (yearlyAmort * (spiYears - 1) + (yearlyTotal / monthCount)) / spiYears;
+        }
+        
+        monthlyAmort = yearlyAmort / 12;
+    }
+    
+    // Общие показатели
+    const totalAmort = amortCost;
+    const yearlyPercent = (yearlyAmort / cost) * 100;
+    const totalPercent = (totalAmort / cost) * 100;
+    
+    // Разница между бухгалтерским и налоговым учетом
+    const amortDiff = yearlyAmort - taxYearly;
+    
+    // Заполняем результаты
+    document.getElementById('resAssetName').textContent = assetName;
+    document.getElementById('resAmortCost').textContent = formatNumber(amortCost.toFixed(2));
+    document.getElementById('resSPI').textContent = spiYears;
+    document.getElementById('resYearlyAmort').textContent = formatNumber(yearlyAmort.toFixed(2));
+    document.getElementById('resYearlyPercent').textContent = yearlyPercent.toFixed(2);
+    document.getElementById('resTotalAmort').textContent = formatNumber(totalAmort.toFixed(2));
+    document.getElementById('resTotalPercent').textContent = totalPercent.toFixed(2);
+    document.getElementById('resMonthlyAmort').textContent = formatNumber(monthlyAmort.toFixed(2));
+    
+    // Налоговый учет
+    document.getElementById('resTaxMethod').textContent = 'Линейный';
+    document.getElementById('resTaxAmort').textContent = formatNumber(taxYearly.toFixed(2));
+    document.getElementById('resAmortDiff').textContent = formatNumber(amortDiff.toFixed(2));
+    document.getElementById('taxAccounting').classList.remove('hidden');
+    
+    // Заполняем таблицу амортизации
+    const scheduleBody = document.querySelector('#amortSchedule tbody');
+    scheduleBody.innerHTML = '';
+    
+    amortTable.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="p-2">${item.year}</td>
+            <td class="p-2">${item.month}</td>
+            <td class="p-2 text-right">${formatNumber(item.amort.toFixed(2))} ₽</td>
+            <td class="p-2 text-right">${formatNumber(item.accumulated.toFixed(2))} ₽</td>
+            <td class="p-2 text-right">${formatNumber(item.remaining.toFixed(2))} ₽</td>
+        `;
+        scheduleBody.appendChild(row);
+    });
+    
+    document.getElementById('amortSchedule').classList.remove('hidden');
+    
+    // Сохраняем данные для Excel
+    localStorage.setItem('amortData', JSON.stringify({
+        assetName,
+        assetType,
+        cost,
+        salvage,
+        spiYears,
+        startDate,
+        method,
+        group,
+        amortTable,
+        yearlyAmort,
+        monthlyAmort,
+        taxYearly,
+        taxMonthly
+    }));
+}
+
+// Сохранение в Excel
+function saveAmortToExcel() {
+    const data = JSON.parse(localStorage.getItem('amortData'));
+    if (!data) {
+        alert('Нет данных для сохранения');
+        return;
+    }
+    
+    // Подготовка данных для Excel
+    const excelData = [
+        ["Калькулятор амортизации основных средств"],
+        ["Название актива:", data.assetName],
+        ["Тип ОС:", document.getElementById('assetType').options[document.getElementById('assetType').selectedIndex].text],
+        ["Первоначальная стоимость:", data.cost, "руб."],
+        ["Ликвидационная стоимость:", data.salvage, "руб."],
+        ["Амортизируемая стоимость:", data.cost - data.salvage, "руб."],
+        ["Срок полезного использования:", data.spiYears, "лет"],
+        ["Дата начала эксплуатации:", data.startDate],
+        ["Метод бух. учета:", document.getElementById('amortMethod').options[document.getElementById('amortMethod').selectedIndex].text],
+        ["Амортизационная группа:", document.getElementById('amortGroup').options[document.getElementById('amortGroup').selectedIndex].text],
+        [],
+        ["Показатели амортизации", "Бухгалтерский учет", "Налоговый учет", "Разница"],
+        ["Среднегодовая амортизация:", data.yearlyAmort, data.taxYearly, data.yearlyAmort - data.taxYearly],
+        ["Ежемесячная амортизация:", data.monthlyAmort, data.taxMonthly, data.monthlyAmort - data.taxMonthly],
+        ["Общая сумма амортизации:", data.cost - data.salvage, data.cost - data.salvage, 0],
+        [],
+        ["График амортизации"],
+        ["Год", "Месяц", "Амортизация", "Накопленная амортизация", "Остаточная стоимость"]
+    ];
+    
+    // Добавляем данные по месяцам
+    data.amortTable.forEach(item => {
+        excelData.push([
+            item.year,
+            item.month,
+            item.amort,
+            item.accumulated,
+            item.remaining
+        ]);
+    });
+    
+    // Создаем книгу Excel
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.aoa_to_sheet(excelData);
+    
+    // Форматируем столбцы
+    const range = XLSX.utils.decode_range(worksheet['!ref']);
+    for (let C = 1; C <= 4; ++C) {
+        for (let R = 11; R <= range.e.r; ++R) {
+            const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+            if (worksheet[cellAddress]) {
+                worksheet[cellAddress].z = '#,##0.00" ₽"';
+            }
+        }
+    }
+    
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Амортизация");
+    
+    // Сохраняем файл
+    const fileName = `Амортизация_${data.assetName.replace(/[^a-zA-Zа-яА-Я0-9]/g, '_')}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
+}
+
+// Инициализация даты начала эксплуатации
+document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('startDate').value = today;
 });
