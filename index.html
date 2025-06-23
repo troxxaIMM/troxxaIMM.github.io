@@ -319,6 +319,139 @@
                             <div id="ndflResult" class="mt-4 p-4 bg-gray-700 rounded-lg"></div>
                         </div>
                         
+                        <div class="bg-gray-800 rounded-xl p-6 hover-grow">
+                            <h2 class="text-2xl font-semibold mb-4 flex items-center">
+                                <i class="fas fa-chart-line mr-2 text-purple-500"></i>
+                                Калькулятор амортизации ОС
+                            </h2>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block mb-2">Название основного средства:</label>
+                                    <input type="text" id="assetName" placeholder="Например, Станок токарный" 
+                                        class="w-full p-3 border-gray-600 rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block mb-2">Тип основного средства:</label>
+                                    <select id="assetType" class="w-full p-3 border-gray-600 rounded-lg">
+                                        <option value="equipment">Оборудование</option>
+                                        <option value="building">Здания и сооружения</option>
+                                        <option value="vehicle">Транспортные средства</option>
+                                        <option value="electronics">Компьютеры и электроника</option>
+                                        <option value="furniture">Мебель и офисное оборудование</option>
+                                        <option value="land">Благоустройство земельных участков</option>
+                                        <option value="intangible">Нематериальные активы</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <label class="block mb-2">Первоначальная стоимость:</label>
+                                    <div class="relative">
+                                        <input type="text" id="assetCost" placeholder="Введите стоимость" 
+                                            class="w-full p-3 border-gray-600 rounded-lg pl-10">
+                                        <span class="absolute left-3 top-3 text-gray-500">₽</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block mb-2">Ликвидационная стоимость:</label>
+                                    <div class="relative">
+                                        <input type="text" id="salvageValue" placeholder="Введите стоимость" 
+                                            class="w-full p-3 border-gray-600 rounded-lg pl-10">
+                                        <span class="absolute left-3 top-3 text-gray-500">₽</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <label class="block mb-2">Срок полезного использования (лет):</label>
+                                    <input type="number" id="assetSPI" min="1" value="5" 
+                                        class="w-full p-3 border-gray-600 rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block mb-2">Дата начала эксплуатации:</label>
+                                    <input type="date" id="startDate" 
+                                        class="w-full p-3 border-gray-600 rounded-lg">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <label class="block mb-2">Метод бухгалтерского учета:</label>
+                                    <select id="amortMethod" class="w-full p-3 border-gray-600 rounded-lg">
+                                        <option value="linear">Линейный</option>
+                                        <option value="reducing">Уменьшаемого остатка</option>
+                                        <option value="production">Производственный</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block mb-2">Амортизационная группа:</label>
+                                    <select id="amortGroup" class="w-full p-3 border-gray-600 rounded-lg">
+                                        <option value="1">Группа 1 (1-2 года)</option>
+                                        <option value="2">Группа 2 (2-3 года)</option>
+                                        <option value="3">Группа 3 (3-5 лет)</option>
+                                        <option value="4">Группа 4 (5-7 лет)</option>
+                                        <option value="5">Группа 5 (7-10 лет)</option>
+                                        <option value="6">Группа 6 (10-15 лет)</option>
+                                        <option value="7">Группа 7 (15-20 лет)</option>
+                                        <option value="8">Группа 8 (20-25 лет)</option>
+                                        <option value="9">Группа 9 (25-30 лет)</option>
+                                        <option value="10">Группа 10 (свыше 30 лет)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 grid grid-cols-2 gap-4">
+                                <button onclick="calculateAmortization()" class="py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg hover:opacity-90 transition-all">
+                                    <i class="fas fa-calculator mr-2"></i> Рассчитать
+                                </button>
+                                <button onclick="saveAmortToExcel()" class="py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg hover:opacity-90 transition-all">
+                                    <i class="fas fa-file-excel mr-2"></i> Excel
+                                </button>
+                            </div>
+
+                            <div id="amortResult" class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-700 p-4 rounded-lg">
+                                <div>
+                                    <h3 class="font-semibold text-lg mb-2">Основные показатели</h3>
+                                    <p><strong>Название актива:</strong> <span id="resAssetName">-</span></p>
+                                    <p><strong>Амортизируемая стоимость:</strong> <span id="resAmortCost">0</span> ₽</p>
+                                    <p><strong>Срок полезного использования:</strong> <span id="resSPI">0</span> лет</p>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-lg mb-2">Амортизация (год)</h3>
+                                    <p><strong>Среднегодовая:</strong> <span id="resYearlyAmort">0</span> ₽ (<span id="resYearlyPercent">0</span>%)</p>
+                                    <p><strong>Общая сумма:</strong> <span id="resTotalAmort">0</span> ₽ (<span id="resTotalPercent">0</span>%)</p>
+                                    <p><strong>Ежемесячная:</strong> <span id="resMonthlyAmort">0</span> ₽</p>
+                                </div>
+                            </div>
+
+                            <div id="taxAccounting" class="mt-4 hidden bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold text-lg mb-2">Налоговый учет</h3>
+                                <p><strong>Метод:</strong> <span id="resTaxMethod">Линейный</span></p>
+                                <p><strong>Амортизация:</strong> <span id="resTaxAmort">0</span> ₽</p>
+                                <p><strong>Разница (бух. - нал.):</strong> <span id="resAmortDiff">0</span> ₽</p>
+                            </div>
+
+                            <div id="amortSchedule" class="mt-6 hidden">
+                                <h3 class="font-semibold text-lg mb-2">График амортизации</h3>
+                                <div class="amort-schedule-container">
+                                    <table class="border-collapse">
+                                        <thead>
+                                            <tr class="text-white">
+                                                <th class="p-2 text-left">Год</th>
+                                                <th class="p-2 text-left">Месяц</th>
+                                                <th class="p-2 text-right">Амортизация</th>
+                                                <th class="p-2 text-right">Накоплено</th>
+                                                <th class="p-2 text-right">Остаток</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-700"></tbody>
+                                    </table>
+                                </div>
+                            </div>                      
+
                         <!-- Currency Converter -->
                         <div class="bg-gray-800 rounded-xl p-6 hover-grow">
                             <h2 class="text-2xl font-semibold mb-4 flex items-center">
