@@ -964,3 +964,44 @@ button:active {
         font-size: 1.5rem;
     }
 }
+
+/* Стили для графика амортизации */
+.amort-schedule-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--event-horizon);
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.amort-schedule-container table {
+    width: 100%;
+    min-width: 600px;
+}
+
+.amort-schedule-container th {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(135deg, var(--plasma), var(--supernova)) !important;
+    z-index: 10;
+}
+
+/* Стили для скроллбара */
+.amort-schedule-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.amort-schedule-container::-webkit-scrollbar-track {
+    background: var(--dark-matter);
+    border-radius: 4px;
+}
+
+.amort-schedule-container::-webkit-scrollbar-thumb {
+    background: var(--plasma);
+    border-radius: 4px;
+}
+
+.amort-schedule-container::-webkit-scrollbar-thumb:hover {
+    background: var(--supernova);
+}
